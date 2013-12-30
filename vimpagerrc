@@ -1,0 +1,3 @@
+" Use j/k for navigation
+nnoremap j <Down>
+nnoremap k <Up>

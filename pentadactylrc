@@ -1,0 +1,38 @@
+"hg6956
+
+loadplugins '\.(js|penta)$'
+group user
+
+" Use `,` as Leader
+map , <Leader>
+
+" github
+command! -nargs=* -description='Search Github' gh open gh <args>
+map -count -modes=n <C-g> <count>ogh<Space>
+map -count -modes=n <C-S-G> <count>tgh<Space>
+
+" Close window
+nmap <Leader>w :winclose<CR>
+
+" Duplicate tab
+nmap <C-S-d> T<CR><C-p>
+
+" Disable Bookmarking!
+map -builtin a <Nop>
+map -builtin A <Nop>
+
+" Post to twitter
+command! -nargs=+ -description='Tweet From Firefox' tweet !~/bin/ttytter -status="<args>"
+nmap <Leader>t :tweet<Space>
+
+" Use MacVim to edit textareas
+set editor="/Users/aziz/bin/mvim -f"
+
+" Highlight all search results
+set hlfind
+map <Leader><Space> :nohlfind<CR>
+
+" Private Pentadactyl config
+source "$HOME/.homesick/repos/dotfiles/home/.ppentadactylrc"
+
+" vim: set ft=pentadactyl:

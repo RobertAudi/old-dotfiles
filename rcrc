@@ -1,0 +1,1 @@
+EXCLUDES="README.md LICENSE dotfiles:config/fish/fish_read_history dotfiles:config/fish/fish_history"

@@ -1,0 +1,17 @@
+.DS_Store
+config/hub
+
+# Fish
+config/.fish-*
+config/fish/fishd.*
+config/fish/fish_history
+config/fish/fish_read_history
+config/fish/functions/test/*
+
+# MOC
+moc/cache/
+moc/equalizer
+moc/last_directory
+moc/softmixer
+moc/pid
+moc/playlist.m3u
