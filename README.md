@@ -29,19 +29,23 @@ Installation
 
 First make sure that you have [homebrew](http://brew.sh/) installed. Check the homepage for information of how to do so. Next, you need to install all the applications specified above using homebrew or with a simple `git clone`; Again, check the homepage of each of the projects if it is not available on homebrew.
 
+Or you can use the setup script to install the required apps after cloning this repository.
+
 Once all the applications are installed, clone the repository in your home directory and run `rcup`:
 
 ```sh
-% git clone git@github.com:AzizLight/dotfiles.git ~/.dotfiles
-% rcup
+> git clone git@github.com:AzizLight/dotfiles.git ~/.dotfiles
+> rcup
+```
+
+If you did not install the required apps, now is the time to do so; A setup script is provided:
+
+```sh
+> cd ~/.dotfiles
+> ./setup
 ```
 
 You will also need to install the Vim NeoBundle plugin and run `NeoBundleInstall` from within Vim. Check the [NeoBundle repository](https://github.com/Shougo/neobundle.vim) for information on how to do that.
-
-TODO
-----
-
-- Create an install script
 
 License
 -------
