@@ -433,6 +433,8 @@ if has("autocmd")
     " Sane movement when word wrap is enabled
     autocmd FileType markdown nnoremap <buffer> j gj
     autocmd FileType markdown nnoremap <buffer> k gk
+    autocmd FileType markdown nnoremap <buffer> gj j
+    autocmd FileType markdown nnoremap <buffer> gk k
     autocmd FileType markdown nnoremap <buffer> L g$
     autocmd FileType markdown nnoremap <buffer> H g^
   augroup END
