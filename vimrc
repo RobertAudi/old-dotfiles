@@ -467,6 +467,7 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " EasyMotion
 " ----------
 let g:EasyMotion_mapping_f = '<Space>'
+let g:EasyMotion_mapping_b = '<S-Space>'
 
 " AmbiCMD
 " -------
