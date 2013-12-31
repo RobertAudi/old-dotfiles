@@ -53,11 +53,7 @@ NeoBundle 'chrisbra/csv.vim.git'
 NeoBundle 'AzizLight/vim-fish.git'
 NeoBundle 'sickill/vim-pasta.git'
 NeoBundle 'AzizLight/TaskList.vim.git'
-NeoBundle 'Valloric/YouCompleteMe.git', {
-      \ 'build' : {
-      \ 'mac' : './install.sh',
-      \ },
-      \ }
+NeoBundleFetch "Shougo/neobundle.vim"
 
 syntax on
 filetype plugin indent on
@@ -453,6 +449,20 @@ let g:maplocalleader = "\\"
 " -------
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden --ignore ".git"'
 nmap <C-f> :Ack!<space>
+
+" NeoComplete
+" -----------
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><BS> neocomplete#smart_close_popup() . "\<C-h>"
+inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() . "\<Space>" : "\<Space>"
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 " EasyMotion
 " ----------
