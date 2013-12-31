@@ -1,3 +1,0 @@
-#!/usr/local/bin/fish
-
-brew install (cat "$DOTS/.brewapps")

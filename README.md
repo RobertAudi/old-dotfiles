@@ -38,11 +38,11 @@ Once all the applications are installed, clone the repository in your home direc
 > rcup
 ```
 
-If you did not install the required apps, now is the time to do so; A setup script is provided:
+If you did not install the required apps, now is the time to do so; You can use the `Brewfile`:
 
 ```sh
 > cd ~/.dotfiles
-> ./setup
+> brew bundle Brewfile
 ```
 
 You will also need to install the Vim NeoBundle plugin and run `NeoBundleInstall` from within Vim. Check the [NeoBundle repository](https://github.com/Shougo/neobundle.vim) for information on how to do that.
