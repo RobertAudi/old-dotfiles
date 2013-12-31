@@ -207,9 +207,9 @@ autocmd FileType fish nnoremap <LocalLeader>gf :call GenerateFishFunctionStub()<
 " FIXME: The `.git` part is added just before the last char...
 function! AddBundle()
   if (empty(getline('.')))
-    exec "normal iNeoBundle '\<c-o>P.git\<esc>T/;dT'o\<esc>"
+    exec "normal iNeoBundle \"\<c-o>P\<c-o>l.git\<esc>T/;dT\"o\<esc>"
   else
-    exec "normal oNeoBundle '\<c-o>P.git\<esc>T/;dT'$"
+    exec "normal oNeoBundle \"\<c-o>P\<c-o>l.git\<esc>T/;dT\"$"
   endif
 endfunction
 autocmd FileType vim nmap <LocalLeader>b :call AddBundle()<CR>
