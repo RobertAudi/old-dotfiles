@@ -158,6 +158,8 @@ set updatecount=10
 
 " Persistent Undo
 set undofile                " Save undo's after file closes
+" Create the undo dir if it doesn't exist
+silent !mkdir -p ~/tmp/vimundo > /dev/null 2>&1
 set undodir=$HOME/tmp/vimundo " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
@@ -479,6 +481,8 @@ endif
 
 let g:unite_split_rule = "bot"
 let g:unite_winheight = 10
+" Create the unite data dir if it doesn't exist
+silent !mkdir -p ~/tmp/vimunite > /dev/null 2>&1
 let g:unite_data_directory = "~/tmp/vimunite"
 let g:unite_source_history_yank_enable = 1
 let g:unite_force_overwrite_statusline = 0
