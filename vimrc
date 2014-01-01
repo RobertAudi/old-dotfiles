@@ -459,10 +459,66 @@ let g:maplocalleader = "\\"
 
 " Plugins
 " =======
-" Ack.vim
-" -------
-let g:ackprg = 'ag --nogroup --nocolor --column --hidden --ignore ".git"'
-nmap <C-f> :Ack!<space>
+" Unite
+" -----
+if executable('ag')
+  let g:unite_source_rec_async_command = 'ag -l --hidden --nocolor -g ""'
+
+  let g:unite_source_grep_command='ag'
+  let g:unite_source_grep_default_opts='--nocolor --nogroup -S -a -C4'
+  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_grep_search_word_highlight = 1
+elseif executable('ack')
+  let g:unite_source_rec_async_command = 'ack -f --nofilter'
+
+  let g:unite_source_grep_command='ack'
+  let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
+  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_grep_search_word_highlight = 1
+endif
+
+let g:unite_split_rule = "bot"
+let g:unite_winheight = 10
+let g:unite_data_directory = "~/tmp/vimunite"
+let g:unite_source_history_yank_enable = 1
+let g:unite_force_overwrite_statusline = 0
+let g:unite_prompt = '>>> '
+let g:unite_marked_icon = '✓'
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+nnoremap <C-p> :Unite -start-insert file_rec/async<CR>
+nnoremap <C-b> :Unite -start-insert -quick-match buffer<CR>
+nnoremap <C-f> :Unite grep:.<CR>
+nnoremap <C-y> :Unite history/yank<CR>
+nnoremap <Leader>t :Unite -vertical -winwidth=40 -direction=topleft -toggle outline<CR>
+nnoremap <Leader>h :Unite -start-insert help<CR>
+nnoremap <Leader>ni :Unite neobundle/install<CR>
+nnoremap <Leader>nu :Unite neobundle/update<CR>
+nnoremap <Leader>nc :NeoBundleClean<CR>
+
+autocmd FileType unite inoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
+autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
+autocmd FileType unite inoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+" TODO: Do the same as the above but for tabs
+
+autocmd FileType unite nmap <buffer> q <Plug>(unite_exit)
+autocmd FileType unite nmap <buffer> <esc> <Plug>(unite_exit)
+autocmd FileType unite imap <buffer> <esc> <Plug>(unite_exit)
+
+" VimFiler
+" --------
+let g:vimfiler_marked_file_icon = '✓'
+let g:vimfiler_readonly_file_icon = '✗'
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_force_overwrite_statusline = 0
+
+nnoremap - :VimFiler<CR>
+
+autocmd FileType vimfiler nmap <buffer> q <Plug>(vimfiler_exit)
+autocmd FileType vimfiler nmap <buffer> <esc> <Plug>(vimfiler_exit)
 
 " NeoComplete
 " -----------
@@ -507,12 +563,6 @@ let g:UltiSnipsExpandTrigger = "<c-j>"
 " indentLine
 " ----------
 let g:indentLine_char = '│'
-
-" Ctrl-P
-" ------
-let g:ctrlp_user_command = 'ag %s -l --hidden --ignore ".git" --ignore ".vim" --nocolor -g ""'
-let g:ctrlp_extensions = ['funky']
-nnoremap <C-b> :CtrlPBuffer<CR>
 
 " Lightline
 " ---------
@@ -598,6 +648,8 @@ if has('gui_running')
   function! MyFilename()
     let fname = expand('%:t')
     return fname == 'ControlP' ? g:lightline.ctrlp_item :
+          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \ &ft == 'unite' ? unite#get_status_string() :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
           \ ('' != fname ? fname : '[No Name]') .
           \ ('' != MyModified() ? ' ' . MyModified() : '')
@@ -605,7 +657,7 @@ if has('gui_running')
 
   function! MyFugitive()
     try
-      if exists('*fugitive#head')
+      if &ft !~? 'vimfiler' && exists('*fugitive#head')
         let mark = ' '  " edit here for cool mark
         let _ = fugitive#head()
         return strlen(_) ? mark._ : ''
@@ -630,6 +682,8 @@ if has('gui_running')
   function! MyMode()
     let fname = expand('%:t')
     return fname == 'ControlP' ? 'CtrlP' :
+          \ &ft == 'unite' ? 'Unite' :
+          \ &ft == 'vimfiler' ? 'VimFiler' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
