@@ -335,120 +335,121 @@ command! -bang WX w | !chmod a+x %
 
 " Auto-commands
 " ==============================================================================
-if has("autocmd")
-  " Disable all beeps and flashes, ALL THE FUCKING TIME!
-  autocmd VimEnter * set visualbell t_vb=
+" Disable all beeps and flashes, ALL THE FUCKING TIME!
+autocmd VimEnter * set visualbell t_vb=
 
-  " Highlight unwanted spaces
-  highlight ExtraWhitespace ctermbg=red guibg=#d63639
-  match ExtraWhitespace /\s\+$/
-  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-  autocmd BufWinLeave * call clearmatches()
+" Highlight unwanted spaces
+highlight ExtraWhitespace ctermbg=red guibg=#d63639
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
+autocmd InsertEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
+autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
+autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
 
-  " Whitelist of filetypes to enable word wrap
-  let word_wrap_whitelist = ['markdown', 'text']
+" Whitelist of filetypes to enable word wrap
+let word_wrap_whitelist = ['markdown', 'text']
 
-  " Absolutely NO WRAP!!
-  autocmd BufEnter,BufNewFile * if index(word_wrap_whitelist, &ft) < 0 | set nowrap
+" Absolutely NO WRAP!!
+autocmd BufEnter,BufNewFile * if index(word_wrap_whitelist, &ft) < 0 | set nowrap | endif
 
-  " Call the global color settings on every colorscheme change or when Vim starts.
-  autocmd VimEnter,ColorScheme * call GlobalColorSettings()
+" Call the global color settings on every colorscheme change or when Vim starts.
+autocmd VimEnter,ColorScheme * call GlobalColorSettings()
 
-  " Change the color of the ColorColumn
-  autocmd BufEnter * hi ColorColumn guibg=#7b0409
+" Change the color of the ColorColumn
+autocmd BufEnter * hi ColorColumn guibg=#7b0409
 
-  " Reopen files on the same line they were in before they were closed the
-  " last time... if that makes sense...
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+" Reopen files on the same line they were in before they were closed the
+" last time... if that makes sense...
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \| exe "normal! g'\"zz" | endif
 
-  " 4 Tabs/Spaces for Objective-C
-  autocmd FileType objc,objcpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+" 4 Tabs/Spaces for Objective-C
+autocmd FileType objc,objcpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
-  " Syntax hilighting for Podfiles
-  autocmd BufRead,BufNewFile Podfile set filetype=ruby
+" Syntax hilighting for Podfiles
+autocmd BufRead,BufNewFile Podfile set filetype=ruby
 
-  " Blacklist of filetypes where CR can't be remapped
-  let cr_noh_mapping_blacklist = ["qf", "netrw"]
+" In help buffers, use `q` to close the help
+autocmd FileType help nnoremap <buffer> q :q<CR>
 
-  " Use <CR> for :noh, except for the specified filetypes
-  autocmd FileType * if index(cr_noh_mapping_blacklist, &ft) < 0 | nnoremap <buffer> <CR> :noh<CR><BS> | endif
+" Blacklist of filetypes where CR can't be remapped
+let cr_noh_mapping_blacklist = ["qf", "netrw", "unite", "vimfiler"]
 
-  " set 'updatetime' to 15 seconds when in insert mode
-  autocmd InsertEnter * let updaterestore = &updatetime | set updatetime=15000
-  autocmd InsertLeave * let &updatetime = updaterestore
+" Use <CR> for :noh, except for the specified filetypes
+autocmd FileType * if index(cr_noh_mapping_blacklist, &ft) < 0 | nnoremap <buffer> <CR> :noh<CR><BS> | endif
 
-  " automatically leave insert mode after 'updatetime' milliseconds of inaction
-  autocmd CursorHoldI * stopinsert
+" set 'updatetime' to 15 seconds when in insert mode
+autocmd InsertEnter * let updaterestore = &updatetime | set updatetime=15000
+autocmd InsertLeave * let &updatetime = updaterestore
 
-  " Leave Insert mode when Vim lost focus
-  autocmd FocusLost * call feedkeys("\<C-\>\<C-n>")
+" automatically leave insert mode after 'updatetime' milliseconds of inaction
+autocmd CursorHoldI * stopinsert
 
-  " Always start on first line of git commit message
-  autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+" Leave Insert mode when Vim lost focus
+autocmd FocusLost * call feedkeys("\<C-[>")
 
-  " Vimscript comment headers
-  autocmd FileType vim nmap <buffer> <LocalLeader>1 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr=:set autoindent smartindent<CR>
-  autocmd FileType vim nmap <buffer> <LocalLeader>2 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr-:set autoindent smartindent<CR>
+" Always start on first line of git commit message
+autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
-  " Git commit messages have spellcheck and start in insert mode
-  autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
-  autocmd BufNewFile,BufRead COMMIT_EDITMSG call feedkeys('ggi', 't')
+" Vimscript comment headers
+autocmd FileType vim nmap <buffer> <LocalLeader>1 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr=:set autoindent smartindent<CR>
+autocmd FileType vim nmap <buffer> <LocalLeader>2 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr-:set autoindent smartindent<CR>
 
-  " Open new tabs at the end
-  autocmd BufNew * if &showtabline && winnr("$") == 1 | tabmove | endif
+" Git commit messages have spellcheck and start in insert mode
+autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
+autocmd BufNewFile,BufRead COMMIT_EDITMSG call feedkeys('ggi', 't')
 
-  " Spell checking for Plain text files
-  autocmd BufNewFile,BufRead,BufEnter *.txt setlocal spell spelllang=en_us
+" Open new tabs at the end
+autocmd BufNew * if &showtabline && winnr("$") == 1 | tabmove | endif
 
-  " Set max text width to 100 for text files
-  autocmd BufRead,BufNewFile *.txt setlocal textwidth=100
+" Spell checking for Plain text files
+autocmd BufNewFile,BufRead,BufEnter *.txt setlocal spell spelllang=en_us
 
-  " .load files are fish files
-  autocmd BufRead,BufNewFile *.load setf fish
+" Set max text width to 100 for text files
+autocmd BufRead,BufNewFile *.txt setlocal textwidth=100
 
-  " Prevent the CSV filetype plugin from complaining
-  autocmd BufReadPre *.csv if !exists('b:delimiter') | let b:delimiter=","
-  autocmd BufReadPre *.csv if !exists('b:col') | let b:col='\%(\%([^' . b:delimiter . ']*"[^"]*"[^' . b:delimiter . ']*' . b:delimiter . '\)\|\%([^' . b:delimiter . ']*\%(' . b:delimiter . '\|$\)\)\)'
+" .load files are fish files
+autocmd BufRead,BufNewFile *.load setf fish
 
-  " Markdown configuration
-  augroup ft_markdown
-    autocmd!
-    " Enable spellcheck
-    autocmd BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=en_us
+" Prevent the CSV filetype plugin from complaining
+autocmd BufReadPre *.csv if !exists('b:delimiter') | let b:delimiter=","
+autocmd BufReadPre *.csv if !exists('b:col') | let b:col='\%(\%([^' . b:delimiter . ']*"[^"]*"[^' . b:delimiter . ']*' . b:delimiter . '\)\|\%([^' . b:delimiter . ']*\%(' . b:delimiter . '\|$\)\)\)'
 
-    " Headings with ease!
-    " Also capitalizes the line
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 guu~yypVr=
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 guu~yypVr-
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 guu~I### <ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 guu~I#### <ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 guu~I##### <ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 guu~I###### <ESC>
+" Markdown configuration
+augroup ft_markdown
+  autocmd!
+  " Enable spellcheck
+  autocmd BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=en_us
 
-    " Code, italic and bold
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>c ciw`<C-r>"`<ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>i ciw*<C-r>"*<ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>b ciw**<C-r>"**<ESC>
+  " Headings with ease!
+  " Also capitalizes the line
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 guu~yypVr=
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 guu~yypVr-
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 guu~I### <ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 guu~I#### <ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 guu~I##### <ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 guu~I###### <ESC>
 
-    " Don't break words that contain `:` or `*`
-    autocmd FileType markdown setlocal breakat-=:
-    autocmd FileType markdown setlocal breakat-=*
+  " Code, italic and bold
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>c ciw`<C-r>"`<ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>i ciw*<C-r>"*<ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>b ciw**<C-r>"**<ESC>
 
-    " Enable word wrap for markdown files
-    autocmd FileType markdown setlocal nolist wrap linebreak
+  " Don't break words that contain `:` or `*`
+  autocmd FileType markdown setlocal breakat-=:
+  autocmd FileType markdown setlocal breakat-=*
 
-    " Sane movement when word wrap is enabled
-    autocmd FileType markdown nnoremap <buffer> j gj
-    autocmd FileType markdown nnoremap <buffer> k gk
-    autocmd FileType markdown nnoremap <buffer> gj j
-    autocmd FileType markdown nnoremap <buffer> gk k
-    autocmd FileType markdown nnoremap <buffer> L g$
-    autocmd FileType markdown nnoremap <buffer> H g^
-  augroup END
-endif
+  " Enable word wrap for markdown files
+  autocmd FileType markdown setlocal nolist wrap linebreak
+
+  " Sane movement when word wrap is enabled
+  autocmd FileType markdown nnoremap <buffer> j gj
+  autocmd FileType markdown nnoremap <buffer> k gk
+  autocmd FileType markdown nnoremap <buffer> gj j
+  autocmd FileType markdown nnoremap <buffer> gk k
+  autocmd FileType markdown nnoremap <buffer> L g$
+  autocmd FileType markdown nnoremap <buffer> H g^
+augroup END
 
 " Map leaders
 let mapleader = ","
