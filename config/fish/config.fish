@@ -48,6 +48,9 @@ set fish_function_path $HOME/.config/fish/functions/overrides $fish_function_pat
 # Utility functions
 set fish_function_path $HOME/.config/fish/functions/utility $fish_function_path
 
+# Debug functions
+set fish_function_path $HOME/.config/fish/functions/debug $fish_function_path
+
 # Load shit that changes the Fish shell
 set fish_function_path $HOME/.config/fish/load $fish_function_path
 
