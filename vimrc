@@ -730,6 +730,9 @@ xnoremap @ :normal@
 xmap <Tab> >
 xmap <S-Tab> <
 
+" Faster line completion
+imap <C-l> <C-x><C-l>
+
 " Isolate a line
 nnoremap <leader><space><space> O<c-o>j<c-o>o<c-o>k<esc>
 
@@ -850,9 +853,6 @@ nnoremap Y y$
 nnoremap <Leader>s :%s//g<Left><Left>
 xnoremap <Leader>s :s//g<Left><Left>
 nnoremap <LocalLeader>s :%s/<C-r>=expand("<cword>")<CR>//g<Left><Left>
-
-" Insert a hash rocket
-imap <C-l> <space>=><space>
 
 " Use a bar-shaped cursor for insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
