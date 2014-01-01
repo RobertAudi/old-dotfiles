@@ -10,31 +10,53 @@ call neobundle#rc(expand("~/.vim/bundle/"))
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch "Shougo/neobundle.vim"
 
-NeoBundle "godlygeek/tabular.git"
-NeoBundle "Raimondi/delimitMate.git"
-NeoBundle "vim-ruby/vim-ruby.git"
+NeoBundle "Shougo/unite.vim.git"
+NeoBundle "Shougo/unite-outline.git"
+NeoBundle "Shougo/vimfiler.vim.git"
+NeoBundle "Shougo/neocomplete.vim.git"
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'mac' : 'make -f make_mac.mak',
+      \    },
+      \ }
+
 NeoBundle "tpope/vim-bundler.git"
 NeoBundle "tpope/vim-rails.git"
 NeoBundle "tpope/vim-rake.git"
-NeoBundle "AzizLight/vim-markdown.git"
 NeoBundle "tpope/vim-endwise.git"
 NeoBundle "tpope/vim-surround.git"
 NeoBundle "tpope/vim-repeat.git"
 NeoBundle "tpope/vim-commentary.git"
+NeoBundle "tpope/vim-fugitive.git"
+NeoBundle "tpope/vim-pastie.git"
+NeoBundle "tpope/vim-markdown.git"
+
+NeoBundle "mattn/emmet-vim.git"
+NeoBundle "mattn/webapi-vim.git"
+NeoBundle "mattn/gist-vim.git"
+
+NeoBundle "vim-scripts/bufkill.vim.git"
+NeoBundle "vim-scripts/zoomwintab.vim.git"
+
+NeoBundle "AzizLight/base16-vim.git"
+NeoBundle "AzizLight/snippets.vim.git"
 NeoBundle "AzizLight/golden-ratio.git"
+NeoBundle "AzizLight/vim-fish.git"
+NeoBundle "AzizLight/TaskList.vim.git"
+NeoBundle "AzizLight/ingo-library.git"
+NeoBundle "AzizLight/EnhancedJumps.git"
+
 NeoBundle "pangloss/vim-javascript.git"
 NeoBundle "leshill/vim-json.git"
 NeoBundle "Yggdroot/indentLine.git"
-NeoBundle "mileszs/ack.vim.git"
-NeoBundle "vim-scripts/bufkill.vim.git"
-NeoBundle "kien/ctrlp.vim.git"
-NeoBundle "tacahiroy/ctrlp-funky.git"
-NeoBundle "AzizLight/base16-vim.git"
-NeoBundle "tpope/vim-vinegar.git"
+NeoBundle "tsukkee/unite-help.git"
+NeoBundle "godlygeek/tabular.git"
+NeoBundle "Raimondi/delimitMate.git"
+NeoBundle "vim-ruby/vim-ruby.git"
+NeoBundle "int3/vim-extradite.git"
+NeoBundle "chrisbra/csv.vim.git"
+NeoBundle "sickill/vim-pasta.git"
 NeoBundle "SirVer/ultisnips.git"
-NeoBundle "AzizLight/snippets.vim.git"
-NeoBundle "tpope/vim-fugitive.git"
-NeoBundle "mattn/emmet-vim.git"
 NeoBundle "joedicastro/vim-multiple-cursors.git"
 NeoBundle "duff/vim-bufonly.git"
 NeoBundle "Lokaltog/vim-easymotion.git"
@@ -45,16 +67,6 @@ NeoBundle "gorodinskiy/vim-coloresque.git"
 " NeoBundle "roman/golden-ratio.git"
 NeoBundle "Eivy/applescript.vim.git"
 NeoBundle "thinca/vim-ambicmd.git"
-NeoBundle "tpope/vim-pastie.git"
-NeoBundle "mattn/webapi-vim.git"
-NeoBundle "mattn/gist-vim.git"
-NeoBundle "int3/vim-extradite.git"
-NeoBundle "AzizLight/vis.vim.git"
-NeoBundle "chrisbra/csv.vim.git"
-NeoBundle "AzizLight/vim-fish.git"
-NeoBundle "sickill/vim-pasta.git"
-NeoBundle "AzizLight/TaskList.vim.git"
-NeoBundle "Shougo/neocomplete.vim.git"
 
 syntax on
 filetype plugin indent on
