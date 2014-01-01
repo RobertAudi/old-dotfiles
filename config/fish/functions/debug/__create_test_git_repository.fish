@@ -1,4 +1,4 @@
-function create_test_git_repository --description="Create a test git repository"
+function __create_test_git_repository --description="Create a test git repository"
   set -l test_git_repo "$USER_TMPDIR/foo"
   if test -d $test_git_repo
     rm -rf $test_git_repo > /dev/null

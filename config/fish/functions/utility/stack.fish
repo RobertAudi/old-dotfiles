@@ -1,4 +1,4 @@
-function dds --description="Display directory stack"
+function stack --description="Display directory stack"
   set_color yellow
   echo "Dir stack:"
   echo "----------"
