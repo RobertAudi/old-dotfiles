@@ -248,7 +248,7 @@ function! Memoize(string)
   call setline('.', l:new_line)
   call search(l:memoized)
 endfunction
-autocmd FileType ruby vmap <LocalLeader>m :call Memoize('<C-r>=GetVisualSelection()<CR>')<CR>
+autocmd FileType ruby xmap <LocalLeader>m :call Memoize('<C-r>=GetVisualSelection()<CR>')<CR>
 autocmd FileType ruby nmap <LocalLeader>m :call Memoize('<C-r>=expand("<cword>")<CR>')<CR>
 
 " Rename file in current buffer
@@ -453,12 +453,12 @@ augroup ft_markdown
   autocmd FileType markdown nnoremap <buffer> L g$
   autocmd FileType markdown nnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
   " In Visual mode
-  autocmd FileType markdown vnoremap <buffer> j gj
-  autocmd FileType markdown vnoremap <buffer> k gk
-  autocmd FileType markdown vnoremap <buffer> gj j
-  autocmd FileType markdown vnoremap <buffer> gk k
-  autocmd FileType markdown vnoremap <buffer> L g$
-  autocmd FileType markdown vnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
+  autocmd FileType markdown xnoremap <buffer> j gj
+  autocmd FileType markdown xnoremap <buffer> k gk
+  autocmd FileType markdown xnoremap <buffer> gj j
+  autocmd FileType markdown xnoremap <buffer> gk k
+  autocmd FileType markdown xnoremap <buffer> L g$
+  autocmd FileType markdown xnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
 augroup END
 
 " Map leaders
@@ -774,7 +774,7 @@ xmap <S-Tab> <
 nnoremap <leader><space><space> O<c-o>j<c-o>o<c-o>k<esc>
 
 " Isolate Visual selection
-vnoremap <leader><space><space> dO<cr><esc>P
+xnoremap <leader><space><space> dO<cr><esc>P
 
 " Same as C-o/C-i but centers the text
 nmap <C-o> <C-o>zz
@@ -785,8 +785,8 @@ nnoremap <C-Up> ddkP
 nnoremap <C-Down> ddp
 
 " Bubble multiple lines
-vnoremap <C-Up> xkP`[V`]
-vnoremap <C-Down> xp`[V`]
+xnoremap <C-Up> xkP`[V`]
+xnoremap <C-Down> xp`[V`]
 
 " Command Mode maps
 " Heresy.
@@ -805,14 +805,14 @@ nnoremap <Right> zl
 
 " Taken from https://github.com/dubgeiser/vimconfig
 " Do not exit visual mode when shifting
-vnoremap > >gv
-vnoremap < <gv
+xnoremap > >gv
+xnoremap < <gv
 
 " Visual Block mode is far more useful that Visual mode
 nnoremap v <C-V>
 nnoremap <C-V> v
-vnoremap v <C-V>
-vnoremap <C-V> v
+xnoremap v <C-V>
+xnoremap <C-V> v
 
 " Make vaa select the entire file
 nnoremap <Leader>a :keepjumps normal ggVG<CR>
@@ -838,12 +838,12 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Search for selected text, forwards or backwards.
-vnoremap <silent> * :<C-U>
+xnoremap <silent> * :<C-U>
   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
   \gvy/<C-R><C-R>=substitute(
   \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
-vnoremap <silent> # :<C-U>
+xnoremap <silent> # :<C-U>
   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
   \gvy?<C-R><C-R>=substitute(
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
@@ -879,16 +879,16 @@ nnoremap vv ^vg_
 
 " Remap H and L to beggining and end of the line
 nnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
-vnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+xnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 nnoremap L $
-vnoremap L $h
+xnoremap L $h
 
 " Make Y consistent with C and D
 nnoremap Y y$
 
 " Easier search
 nnoremap <Leader>s :%s//g<Left><Left>
-vnoremap <Leader>s :s//g<Left><Left>
+xnoremap <Leader>s :s//g<Left><Left>
 nnoremap <LocalLeader>s :%s/<C-r>=expand("<cword>")<CR>//g<Left><Left>
 
 " Insert a hash rocket
