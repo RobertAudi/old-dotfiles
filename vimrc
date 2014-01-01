@@ -530,13 +530,23 @@ let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
+
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><BS> neocomplete#smart_close_popup() . "\<C-h>"
 inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() . "\<Space>" : "\<Space>"
+
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
+" GoldenRatio
+" -----------
+let g:golden_ratio_filetypes_blacklist = ["unite"]
+
+" ZoomWinTab
+" ----------
+nnoremap <LocalLeader><LocalLeader> :ZoomWinTabToggle<CR>
 
 " EasyMotion
 " ----------
@@ -556,13 +566,18 @@ let g:gist_browser_command = 'open %URL%'
 " Commentary
 " ----------
 nmap gx gccyypgcc
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-vmap gx yPgpgc3<C-o>
+nmap <C-\> gcc
+xmap <C-\> gc
 
 " UltiSnips
 " ---------
 let g:UltiSnipsEditSplit = "horizontal"
 let g:UltiSnipsExpandTrigger = "<c-j>"
+
+" Surround
+" --------
+" Quickly surroun the word under the cursor
+nnoremap <C-w> viwS
 
 " indentLine
 " ----------
