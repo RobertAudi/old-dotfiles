@@ -445,12 +445,20 @@ augroup ft_markdown
   autocmd FileType markdown setlocal nolist wrap linebreak
 
   " Sane movement when word wrap is enabled
+  " In Normal mode
   autocmd FileType markdown nnoremap <buffer> j gj
   autocmd FileType markdown nnoremap <buffer> k gk
   autocmd FileType markdown nnoremap <buffer> gj j
   autocmd FileType markdown nnoremap <buffer> gk k
   autocmd FileType markdown nnoremap <buffer> L g$
-  autocmd FileType markdown nnoremap <buffer> H g^
+  autocmd FileType markdown nnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
+  " In Visual mode
+  autocmd FileType markdown vnoremap <buffer> j gj
+  autocmd FileType markdown vnoremap <buffer> k gk
+  autocmd FileType markdown vnoremap <buffer> gj j
+  autocmd FileType markdown vnoremap <buffer> gk k
+  autocmd FileType markdown vnoremap <buffer> L g$
+  autocmd FileType markdown vnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
 augroup END
 
 " Map leaders
