@@ -121,7 +121,7 @@ set norelativenumber
 set autoread
 
 " Automatically save the file when switching buffers. See :h aw
-set autowrite
+set autowriteall
 
 " Highlight the current line
 set cursorline
