@@ -3,7 +3,7 @@ function xkcd --description="View a random xkcd comic strip"
   echo "Downloading random xkcd..."
   set_color normal
 
-  set -l url (curl -sL http://dynamic.xkcd.com/random/comic/ | /usr/bin/grep -om1 'http://imgs.xkcd.com/comics/[^.]*\.[a-z]*')
+  set -l url (curl -sL http://dynamic.xkcd.com/random/comic/ | command grep -om1 'http://imgs.xkcd.com/comics/[^.]*\.[a-z]*')
 
   set -l ext (echo $url | awk -F . '{if (NF>1) {print $NF}}')
   set -l img "/tmp/xkcd-wallpaper.$ext"

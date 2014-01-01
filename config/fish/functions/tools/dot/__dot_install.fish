@@ -47,11 +47,11 @@ function __dot_install --description="Install packages"
 
         if test $force_check = "yes"
           set -l previous_pwd $PWD
-          /usr/bin/cd $destination
+          builtin cd $destination
 
           set -l changes (count (git status --porcelain > /dev/null ^/dev/null))
 
-          /usr/bin/cd $previous_pwd
+          builtin cd $previous_pwd
 
           if test $changes -gt 0
 

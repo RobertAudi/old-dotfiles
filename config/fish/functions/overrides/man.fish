@@ -1,3 +1,3 @@
 function man
-  /usr/bin/man $argv[1] | vimpager
+  command man $argv[1] | vimpager
 end

@@ -13,7 +13,7 @@ function __dot_parse_options --description="Parse options"
   set -l options
   set -l counter 1
   while test $counter -le $argc
-    if test (count (echo -n "$arguments[$counter]" | /usr/bin/grep -E "^-{1,2}\w+(-\w+)*\$")) -eq 1
+    if test (count (echo -n "$arguments[$counter]" | command grep -E "^-{1,2}\w+(-\w+)*\$")) -eq 1
       set options $options $arguments[$counter]
 
       set -e arguments[$counter]

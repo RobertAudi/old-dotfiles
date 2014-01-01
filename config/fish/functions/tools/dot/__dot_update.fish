@@ -51,7 +51,7 @@ function __dot_update --description="Update packages"
     end
 
     set -l previous_pwd $PWD
-    /usr/bin/cd $package_dir
+    builtin cd $package_dir
 
     set -l upstrean_changes (count (git log HEAD..origin/master --oneline > /dev/null ^/dev/null))
 

@@ -21,7 +21,7 @@ function log --description="Log a message to a file"
   set -l max (count $arguments)
 
   while test $counter -le $max
-    test (count (echo $arguments[$counter] | /usr/bin/grep -E "^--?[[:alpha:]]+(-?[[:alpha:]])*\$")) -eq 1
+    test (count (echo $arguments[$counter] | command grep -E "^--?[[:alpha:]]+(-?[[:alpha:]])*\$")) -eq 1
     and set options $options $arguments[$counter]
     and set -e arguments[$counter]
     and set argc (math $argc - 1)
@@ -58,13 +58,13 @@ function log --description="Log a message to a file"
       set -l message (cat /dev/null)
 
       test (count $arguments) -gt 0
-      and test (count (echo $arguments[1] | /usr/bin/grep "^\$")) -eq 0
+      and test (count (echo $arguments[1] | command grep "^\$")) -eq 0
       and set message "$level: $arguments"
 
       __log_message $message
     case "show"
       test (count $options) -gt 0
-      and test (count (echo $options | /usr/bin/grep -E "\--all")) -lt (count $options)
+      and test (count (echo $options | command grep -E "\--all")) -lt (count $options)
       and log message error "Tried to use the log command with invalid options"
       and return 1
 
@@ -74,7 +74,7 @@ function log --description="Log a message to a file"
 
       __log_show $arguments $options
     case "remove"
-      set -l all_option_count (count (echo $options | /usr/bin/grep -E "\--all"))
+      set -l all_option_count (count (echo $options | command grep -E "\--all"))
       test (count $options) -gt 0
       and test $all_option_count -lt (count $options)
       and log message error "Tried to use the log command with invalid options"
@@ -160,7 +160,7 @@ function __log_message
     /bin/mkdir -p $USER_LOG_DIRECTORY
   end
 
-  /usr/bin/touch $USER_LOG_FILE
+  command touch $USER_LOG_FILE
 
   set -l log_time (ruby -e "print Time.now")
   and echo "[$log_time] $argv" >> $USER_LOG_FILE
@@ -175,7 +175,7 @@ function __log_show
 
   set -l min 1
   while test $argc -ge $min
-    test (count (echo $argv_cache[$argc] | /usr/bin/grep "\--?")) -eq 1
+    test (count (echo $argv_cache[$argc] | command grep "\--?")) -eq 1
     and set options $argv_cache[$argc] $options
     and set -e argv_cache[$argc]
     and set argc (math $argc - 1)
@@ -190,7 +190,7 @@ function __log_show
   set -l counter 1
   set -l tmp
   while test $counter -le $argc
-    if test (count (echo $arguments[$counter] | /usr/bin/grep "^\$" )) -eq 1
+    if test (count (echo $arguments[$counter] | command grep "^\$" )) -eq 1
       set tmp $tmp (cat /dev/null)
     else
       set tmp $tmp $arguments[$counter]
@@ -212,20 +212,20 @@ function __log_show
       set level (cat /dev/null)
       set number (cat /dev/null)
     case 1
-      if test (count (echo $arguments[1] | /usr/bin/grep -E "^[1-9]\d*\$")) -eq 1
+      if test (count (echo $arguments[1] | command grep -E "^[1-9]\d*\$")) -eq 1
         set level (cat /dev/null)
         set number $arguments[1]
-      else if test (count (echo $arguments[1] | /usr/bin/grep -E "^[[:alpha:]]\$")) -eq 1
+      else if test (count (echo $arguments[1] | command grep -E "^[[:alpha:]]\$")) -eq 1
         set level $arguments[1]
         set number (cat /dev/null)
       end
     case 2
-      if test (count (echo $arguments[1] | /usr/bin/grep -E "^[1-9]\d*\$")) -eq 1
-        test (count (echo $arguments[2] | /usr/bin/grep -E "^[[:alpha:]]+\$")) -eq 1
+      if test (count (echo $arguments[1] | command grep -E "^[1-9]\d*\$")) -eq 1
+        test (count (echo $arguments[2] | command grep -E "^[[:alpha:]]+\$")) -eq 1
         and set level $arguments[2]
         and set number $arguments[1]
-      else if test (count (echo $arguments[1] | /usr/bin/grep -E "^[[:alpha:]]+\$")) -eq 1
-        test (count (echo $arguments[2] | /usr/bin/grep -E "^[1-9]\d*\$")) -eq 1
+      else if test (count (echo $arguments[1] | command grep -E "^[[:alpha:]]+\$")) -eq 1
+        test (count (echo $arguments[2] | command grep -E "^[1-9]\d*\$")) -eq 1
         and set level $arguments[1]
         and set number $arguments[2]
       else
@@ -235,7 +235,7 @@ function __log_show
   end
 
   set -e arguments
-  set -l all_option_count (count (echo $options | /usr/bin/grep -E "\--all"))
+  set -l all_option_count (count (echo $options | command grep -E "\--all"))
 
   test $all_option_count -eq 1
   and test -n $number
@@ -244,17 +244,17 @@ function __log_show
 
   if test -n $level
     test $all_option_count -eq 1
-    and cat $USER_LOG_FILE | /usr/bin/grep "$level:"
+    and cat $USER_LOG_FILE | command grep "$level:"
     and log message info "User `$USER` looked at all the logs"
     and return
 
     test -n $number
-    and tail "-$number" $USER_LOG_FILE | /usr/bin/grep "$level:"
+    and tail "-$number" $USER_LOG_FILE | command grep "$level:"
     and log message info "User `$USER` looked at the last $number logs"
     and return
 
     test -n $USER_LOG_VIEW_SIZE
-    and tail "-$USER_LOG_VIEW_SIZE" $USER_LOG_FILE | /usr/bin/grep "$level:"
+    and tail "-$USER_LOG_VIEW_SIZE" $USER_LOG_FILE | command grep "$level:"
     and log message info "User `$USER` looked at the last $USER_LOG_VIEW_SIZE logs"
     and return
   else

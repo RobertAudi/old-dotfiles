@@ -2,7 +2,7 @@ function fish_greeting
   if test -z $NEW_SESSION_CMD
     __aziz_light
 
-    test (count (tty | /usr/bin/grep "ttys000")) -eq 1
+    test (count (tty | command grep "ttys000")) -eq 1
     and gol --no-clear
   else
     test -n "$TILE_WINDOW"
