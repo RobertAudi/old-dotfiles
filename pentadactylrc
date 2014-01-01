@@ -21,18 +21,18 @@ nmap <C-S-d> T<CR><C-p>
 map -builtin a <Nop>
 map -builtin A <Nop>
 
-" Post to twitter
-command! -nargs=+ -description='Tweet From Firefox' tweet !~/bin/ttytter -status="<args>"
-nmap <Leader>t :tweet<Space>
+" Faster navigation
+map -count -modes=n j -builtin <count>3j
+map -count -modes=n k -builtin <count>3k
 
 " Use MacVim to edit textareas
-set editor="/Users/aziz/bin/mvim -f"
+set editor="mvim -f"
 
 " Highlight all search results
 set hlfind
 map <Leader><Space> :nohlfind<CR>
 
 " Private Pentadactyl config
-source "$HOME/.homesick/repos/dotfiles/home/.ppentadactylrc"
+source "$DOTS/.pentadactylrc.private"
 
 " vim: set ft=pentadactyl:
