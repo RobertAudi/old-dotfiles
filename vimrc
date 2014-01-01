@@ -748,7 +748,27 @@ endif
 nmap <F1> <Esc>
 
 " Disable Ex mode
-nnoremap Q <nop>
+nnoremap Q <Nop>
+
+" Change into the blackhole register to not clobber the last yank
+nnoremap c "_c
+
+" Yank and go to end of selection
+xnoremap y y`]
+
+" Paste in visual mode should not replace the default register with the
+" deleted text
+xnoremap p "_dP
+
+" . in visual mode
+xnoremap . :normal .<CR>
+
+" Repeats macro on every line
+xnoremap @ :normal@
+
+" Indent/Unindent
+xmap <Tab> >
+xmap <S-Tab> <
 
 " Isolate a line
 nnoremap <leader><space><space> O<c-o>j<c-o>o<c-o>k<esc>
@@ -795,7 +815,7 @@ vnoremap v <C-V>
 vnoremap <C-V> v
 
 " Make vaa select the entire file
-vmap aa VGo1G
+nnoremap <Leader>a :keepjumps normal ggVG<CR>
 
 " Keep search matches in the middle of the window
 nnoremap <silent> n nzz
@@ -804,6 +824,12 @@ nnoremap <silent> N Nzz
 " Don't move on */#
 nnoremap <silent>* *zz
 nnoremap <silent># #zz
+
+" _ : Quick horizontal splits
+nnoremap _ :sp<cr>
+
+" | : Quick vertical splits
+nnoremap <bar> :vsp<cr>
 
 " Movement through splits
 nnoremap <C-h> <C-w>h
@@ -852,7 +878,8 @@ nnoremap <LocalLeader>] V`]=
 nnoremap vv ^vg_
 
 " Remap H and L to beggining and end of the line
-noremap H ^
+nnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+vnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 nnoremap L $
 vnoremap L $h
 
