@@ -828,10 +828,10 @@ noremap <S-Right> :tabnext<CR>
 noremap <Leader>nt :tabnew<CR>
 
 " Opens an edit command with the path of the currently edited file filled in
-map <LocalLeader>e :e <C-R>=getcwd() . "/" <CR>
-map <LocalLeader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
-map <LocalLeader>te :tabe <C-R>=getcwd() . "/" <CR>
-map <LocalLeader>tee :tabe <C-R>=expand("%:p:h") . "/" <CR>
+nmap <LocalLeader>e :e <C-R>=getcwd() . "/" <CR>
+nmap <LocalLeader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
+nmap <LocalLeader>te :tabe <C-R>=getcwd() . "/" <CR>
+nmap <LocalLeader>tee :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Opens an edit command with the path of the fish functions directory filled in
 nnoremap <expr> <LocalLeader>ff getcwd() =~ $HOME . "/.homesick/repos/dotfiles" ? ':e <C-R>=getcwd()<CR>/home/.config/fish/functions/' : ':echoerr "You are not in the dotfiles directory!"<CR>'
