@@ -540,6 +540,10 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " -----------
 let g:golden_ratio_filetypes_blacklist = ["unite"]
 
+" Vinegar
+" -------
+autocmd FileType netrw nnoremap <silent> <buffer> <ESC> :BD<CR>
+
 " ZoomWinTab
 " ----------
 nnoremap <LocalLeader><LocalLeader> :ZoomWinTabToggle<CR>
