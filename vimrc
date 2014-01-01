@@ -744,12 +744,12 @@ nmap <C-o> <C-o>zz
 nmap <C-i> <C-i>zz
 
 " Bubble single lines
-nnoremap <C-Up> ddkP
-nnoremap <C-Down> ddp
+nnoremap <Up> ddkP
+nnoremap <Down> ddp
 
 " Bubble multiple lines
-xnoremap <C-Up> xkP`[V`]
-xnoremap <C-Down> xp`[V`]
+xnoremap <Up> xkP`[V`]
+xnoremap <Down> xp`[V`]
 
 " Command Mode maps
 " Heresy.
@@ -759,12 +759,6 @@ cnoremap <c-p> <up>
 cnoremap <c-n> <down>
 cnoremap <c-f> <right>
 cnoremap <c-b> <left>
-
-" arrow keys move visible lines
-nnoremap <Down> <C-e>
-nnoremap <Up> <C-y>
-nnoremap <Left> zh
-nnoremap <Right> zl
 
 " Taken from https://github.com/dubgeiser/vimconfig
 " Do not exit visual mode when shifting
