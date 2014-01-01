@@ -222,9 +222,9 @@ autocmd FileType fish nnoremap <LocalLeader>gf :call GenerateFishFunctionStub()<
 " FIXME: The `.git` part is added just before the last char...
 function! AddBundle()
   if (empty(getline('.')))
-    exec "normal iNeoBundle \"\<c-o>P\<c-o>l.git\<esc>T/;dT\"o\<esc>"
+    exec "normal iNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"o\<esc>"
   else
-    exec "normal oNeoBundle \"\<c-o>P\<c-o>l.git\<esc>T/;dT\"$"
+    exec "normal oNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"$"
   endif
 endfunction
 autocmd FileType vim nmap <LocalLeader>b :call AddBundle()<CR>
@@ -248,8 +248,8 @@ function! Memoize(string)
   call setline('.', l:new_line)
   call search(l:memoized)
 endfunction
-autocmd FileType ruby xmap <LocalLeader>m :call Memoize('<C-r>=GetVisualSelection()<CR>')<CR>
-autocmd FileType ruby nmap <LocalLeader>m :call Memoize('<C-r>=expand("<cword>")<CR>')<CR>
+autocmd FileType ruby xmap <LocalLeader>m :call Memoize('<C-R>=GetVisualSelection()<CR>')<CR>
+autocmd FileType ruby nmap <LocalLeader>m :call Memoize('<C-R>=expand("<cword>")<CR>')<CR>
 
 " Rename file in current buffer
 function! RenameFile()
@@ -433,9 +433,9 @@ augroup ft_markdown
   autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 guu~I###### <ESC>
 
   " Code, italic and bold
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>c ciw`<C-r>"`<ESC>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>i ciw*<C-r>"*<ESC>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>b ciw**<C-r>"**<ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>c ciw`<C-R>"`<ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>i ciw*<C-R>"*<ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>b ciw**<C-R>"**<ESC>
 
   " Don't break words that contain `:` or `*`
   autocmd FileType markdown setlocal breakat-=:
@@ -500,20 +500,20 @@ let g:unite_marked_icon = '✓'
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
-nnoremap <C-p> :Unite -start-insert file_rec/async<CR>
-nnoremap <C-b> :Unite -start-insert -quick-match buffer<CR>
-nnoremap <C-f> :Unite grep:.<CR>
-nnoremap <C-y> :Unite history/yank<CR>
+nnoremap <C-P> :Unite -start-insert file_rec/async<CR>
+nnoremap <C-B> :Unite -start-insert -quick-match buffer<CR>
+nnoremap <C-F> :Unite grep:.<CR>
+nnoremap <C-Y> :Unite history/yank<CR>
 nnoremap <Leader>t :Unite -vertical -winwidth=40 -direction=topleft -toggle outline<CR>
 nnoremap <Leader>h :Unite -start-insert help<CR>
 nnoremap <Leader>ni :Unite neobundle/install<CR>
 nnoremap <Leader>nu :Unite neobundle/update<CR>
 nnoremap <Leader>nc :NeoBundleClean<CR>
 
-autocmd FileType unite inoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
-autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
-autocmd FileType unite inoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
-autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+autocmd FileType unite inoremap <silent> <buffer> <expr> <C-S> unite#do_action('split')
+autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-S> unite#do_action('split')
+autocmd FileType unite inoremap <silent> <buffer> <expr> <C-V> unite#do_action('vsplit')
+autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('vsplit')
 " TODO: Do the same as the above but for tabs
 
 autocmd FileType unite nmap <buffer> q <Plug>(unite_exit)
@@ -527,8 +527,8 @@ let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><BS> neocomplete#smart_close_popup() . "\<C-h>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-N>" : "\<TAB>"
+inoremap <expr><BS> neocomplete#smart_close_popup() . "\<C-H>"
 inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() . "\<Space>" : "\<Space>"
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -572,12 +572,12 @@ xmap <C-\> gc
 " UltiSnips
 " ---------
 let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsExpandTrigger = "<C-J>"
 
 " Surround
 " --------
 " Quickly surroun the word under the cursor
-nnoremap <C-w> viwS
+nnoremap <C-W> viwS
 
 " indentLine
 " ----------
@@ -630,10 +630,6 @@ if has('gui_running')
     exec "bd"
   endfunction
   command! BOD call DeleteAllBuffers()
-
-  " Tile MacVim Left/Right
-  command! GOL silent !gol
-  command! GOR silent !gor
 
   let g:lightline = {
         \ 'colorscheme': 'jellybeans',
@@ -731,17 +727,17 @@ xmap <Tab> >
 xmap <S-Tab> <
 
 " Faster line completion
-imap <C-l> <C-x><C-l>
+imap <C-L> <C-X><C-L>
 
 " Isolate a line
-nnoremap <leader><space><space> O<c-o>j<c-o>o<c-o>k<esc>
+nnoremap <leader><space><space> O<C-O>j<C-O>o<C-O>k<esc>
 
 " Isolate Visual selection
 xnoremap <leader><space><space> dO<cr><esc>P
 
-" Same as C-o/C-i but centers the text
-nmap <C-o> <C-o>zz
-nmap <C-i> <C-i>zz
+" Same as C-O/C-I but centers the text
+nmap <C-O> <C-O>zz
+nmap <C-I> <C-I>zz
 
 " Bubble single lines
 nnoremap <Up> ddkP
@@ -753,12 +749,12 @@ xnoremap <Down> xp`[V`]
 
 " Command Mode maps
 " Heresy.
-cnoremap <C-a> <home>
-cnoremap <C-e> <end>
-cnoremap <c-p> <up>
-cnoremap <c-n> <down>
-cnoremap <c-f> <right>
-cnoremap <c-b> <left>
+cnoremap <C-A> <home>
+cnoremap <C-E> <end>
+cnoremap <C-P> <up>
+cnoremap <C-N> <down>
+cnoremap <C-F> <right>
+cnoremap <C-B> <left>
 
 " Taken from https://github.com/dubgeiser/vimconfig
 " Do not exit visual mode when shifting
@@ -783,16 +779,16 @@ nnoremap <silent>* *zz
 nnoremap <silent># #zz
 
 " _ : Quick horizontal splits
-nnoremap _ :sp<cr>
+nnoremap _ :sp<CR>
 
 " | : Quick vertical splits
-nnoremap <bar> :vsp<cr>
+nnoremap <bar> :vsp<CR>
 
 " Movement through splits
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
 
 " Search for selected text, forwards or backwards.
 xnoremap <silent> * :<C-U>
@@ -823,7 +819,7 @@ nmap <LocalLeader>tee :tabe <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <expr> <LocalLeader>ff getcwd() =~ $HOME . "/.homesick/repos/dotfiles" ? ':e <C-R>=getcwd()<CR>/home/.config/fish/functions/' : ':echoerr "You are not in the dotfiles directory!"<CR>'
 
 " Uppercase!
-inoremap <C-u> <esc>gUiwea
+inoremap <C-U> <esc>gUiwea
 
 " Select (linewise) the text you just pasted.
 nnoremap <leader>v V`]
@@ -846,7 +842,7 @@ nnoremap Y y$
 " Easier search
 nnoremap <Leader>s :%s//g<Left><Left>
 xnoremap <Leader>s :s//g<Left><Left>
-nnoremap <LocalLeader>s :%s/<C-r>=expand("<cword>")<CR>//g<Left><Left>
+nnoremap <LocalLeader>s :%s/<C-R>=expand("<cword>")<CR>//g<Left><Left>
 
 " Use a bar-shaped cursor for insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
