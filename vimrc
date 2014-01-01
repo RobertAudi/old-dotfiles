@@ -12,7 +12,6 @@ NeoBundleFetch "Shougo/neobundle.vim"
 
 NeoBundle "Shougo/unite.vim.git"
 NeoBundle "Shougo/unite-outline.git"
-NeoBundle "Shougo/vimfiler.vim.git"
 NeoBundle "Shougo/neocomplete.vim.git"
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
@@ -30,6 +29,7 @@ NeoBundle "tpope/vim-commentary.git"
 NeoBundle "tpope/vim-fugitive.git"
 NeoBundle "tpope/vim-pastie.git"
 NeoBundle "tpope/vim-markdown.git"
+NeoBundle "tpope/vim-vinegar.git"
 
 NeoBundle "mattn/emmet-vim.git"
 NeoBundle "mattn/webapi-vim.git"
@@ -375,7 +375,7 @@ autocmd BufRead,BufNewFile Podfile set filetype=ruby
 autocmd FileType help nnoremap <buffer> q :q<CR>
 
 " Blacklist of filetypes where CR can't be remapped
-let cr_noh_mapping_blacklist = ["qf", "netrw", "unite", "vimfiler"]
+let cr_noh_mapping_blacklist = ["qf", "netrw", "unite"]
 
 " Use <CR> for :noh, except for the specified filetypes
 autocmd FileType * if index(cr_noh_mapping_blacklist, &ft) < 0 | nnoremap <buffer> <CR> :noh<CR><BS> | endif
@@ -520,18 +520,6 @@ autocmd FileType unite nmap <buffer> q <Plug>(unite_exit)
 autocmd FileType unite nmap <buffer> <esc> <Plug>(unite_exit)
 autocmd FileType unite imap <buffer> <esc> <Plug>(unite_exit)
 
-" VimFiler
-" --------
-let g:vimfiler_marked_file_icon = '✓'
-let g:vimfiler_readonly_file_icon = '✗'
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_force_overwrite_statusline = 0
-
-nnoremap - :VimFiler<CR>
-
-autocmd FileType vimfiler nmap <buffer> q <Plug>(vimfiler_exit)
-autocmd FileType vimfiler nmap <buffer> <esc> <Plug>(vimfiler_exit)
-
 " NeoComplete
 " -----------
 let g:acp_enableAtStartup = 0
@@ -673,9 +661,7 @@ if has('gui_running')
 
   function! MyFilename()
     let fname = expand('%:t')
-    return fname == 'ControlP' ? g:lightline.ctrlp_item :
-          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-          \ &ft == 'unite' ? unite#get_status_string() :
+    return &ft == 'unite' ? unite#get_status_string() :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
           \ ('' != fname ? fname : '[No Name]') .
           \ ('' != MyModified() ? ' ' . MyModified() : '')
@@ -683,7 +669,7 @@ if has('gui_running')
 
   function! MyFugitive()
     try
-      if &ft !~? 'vimfiler' && exists('*fugitive#head')
+      if exists('*fugitive#head')
         let mark = ' '  " edit here for cool mark
         let _ = fugitive#head()
         return strlen(_) ? mark._ : ''
@@ -708,7 +694,6 @@ if has('gui_running')
   function! MyMode()
     let fname = expand('%:t')
     return &ft == 'unite' ? 'Unite' :
-          \ &ft == 'vimfiler' ? 'VimFiler' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 endif
