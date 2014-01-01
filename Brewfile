@@ -5,6 +5,7 @@ upgrade
 install ack
 install autojump
 install cowsay
+install ctags
 install dtrx
 install figlet
 install fish
