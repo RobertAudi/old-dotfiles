@@ -8,6 +8,8 @@ function popd --description "Pop dir from stack"
   end
 
   if test $dirstack[1]
+    set -gx DASHDIRECTION "next"
+    set -gx OLDPWD $PWD
     builtin cd $dirstack[1]
   else
     echo "Directory stack is empty..."

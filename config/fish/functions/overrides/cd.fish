@@ -1,31 +1,10 @@
 function cd --description="Change directory"
   if test -z $DASHDIRECTION
-    set -g DASHDIRECTION "previous"
+    set -gx DASHDIRECTION "previous"
   end
 
   if test $argv[1] = - ^/dev/null
-    if test -z $OLDPWD
-      set -g OLDPWD $PWD
-    end
-
-    if test $DASHDIRECTION = "previous"
-      if test $dirstack[1] = $PWD
-        set -l old $PWD
-        pushd $OLDPWD
-        set -g OLDPWD $old
-        set -g DASHDIRECTION "previous"
-      else
-        set -l old $PWD
-        popd
-        set -g OLDPWD $old
-        set -g DASHDIRECTION "next"
-      end
-    else
-      set -l old $PWD
-      pushd $OLDPWD
-      set -g OLDPWD $old
-      set -g DASHDIRECTION "previous"
-    end
+    back
   else
     set -l dir
 
@@ -36,7 +15,7 @@ function cd --description="Change directory"
     end
 
     if test $dir != $PWD
-      set -g OLDPWD $PWD
+      set -gx OLDPWD $PWD
     end
 
     pushd $dir

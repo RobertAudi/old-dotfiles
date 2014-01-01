@@ -7,7 +7,6 @@ function pushd --description "Push directory to stack"
     end
   end
 
-  # Comment to avoid set completions
   set -g dirstack (command pwd) $dirstack
   builtin cd $argv[1]
 end
