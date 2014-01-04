@@ -22,3 +22,5 @@ install the_silver_searcher
 install toilet
 install tree
 install vimpager
+
+cleanup
