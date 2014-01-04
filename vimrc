@@ -513,12 +513,14 @@ nnoremap <Leader>h :Unite -start-insert help<CR>
 nnoremap <Leader>ni :Unite neobundle/install<CR>
 nnoremap <Leader>nu :Unite neobundle/update<CR>
 nnoremap <Leader>nc :NeoBundleClean<CR>
+nnoremap <LocalLeader>tt :Unite grep:**::TODO\|FIXME\|IMPROVE\|BUG\|!!!<CR>
 
 autocmd FileType unite inoremap <silent> <buffer> <expr> <C-S> unite#do_action('split')
 autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-S> unite#do_action('split')
 autocmd FileType unite inoremap <silent> <buffer> <expr> <C-V> unite#do_action('vsplit')
 autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('vsplit')
-" TODO: Do the same as the above but for tabs
+autocmd FileType unite inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
+autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
 
 autocmd FileType unite nmap <buffer> q <Plug>(unite_exit)
 autocmd FileType unite nmap <buffer> <Esc> <Plug>(unite_exit)
