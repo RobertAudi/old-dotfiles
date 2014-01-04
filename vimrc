@@ -522,6 +522,7 @@ autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('
 autocmd FileType unite inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
 autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
 
+autocmd FileType unite imap <buffer> <C-L> <Plug>(unite_redraw)
 autocmd FileType unite nmap <buffer> q <Plug>(unite_exit)
 autocmd FileType unite nmap <buffer> <Esc> <Plug>(unite_exit)
 autocmd FileType unite imap <buffer> <Esc> <Plug>(unite_exit)
@@ -791,6 +792,11 @@ nnoremap _ :sp<CR>
 nnoremap <bar> :vsp<CR>
 
 " Movement through splits
+
+" autocmd FileType * if &ft != "unite" | nnoremap <C-H> <C-W>h | endif
+" autocmd FileType * if &ft != "unite" | nnoremap <C-J> <C-W>j | endif
+" autocmd FileType * if &ft != "unite" | nnoremap <C-K> <C-W>k | endif
+" autocmd FileType * if &ft != "unite" | nnoremap <C-L> <C-W>l | endif
 nnoremap <C-H> <C-W>h
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
