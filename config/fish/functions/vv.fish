@@ -1,3 +1,3 @@
 function vv --description="Edit the .vimrc file in MacVim"
-  mvim $DOTS/.vimrc
+  mvim $DOTS/vimrc
 end

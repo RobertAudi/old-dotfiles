@@ -33,6 +33,6 @@ set hlfind
 map <Leader><Space> :nohlfind<CR>
 
 " Private Pentadactyl config
-source "$DOTS/.pentadactylrc.private"
+source "$HOME/.pentadactylrc.private"
 
 " vim: set ft=pentadactyl:
