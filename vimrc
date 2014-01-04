@@ -344,10 +344,10 @@ autocmd VimEnter * set visualbell t_vb=
 " Highlight unwanted spaces
 highlight ExtraWhitespace ctermbg=red guibg=#d63639
 match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
-autocmd InsertEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
-autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
-autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
+autocmd BufWinEnter * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+$/ | endif
+autocmd InsertEnter * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
+autocmd InsertLeave * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+$/ | endif
+autocmd BufWinLeave * if &modifiable && &ft != "unite" | call clearmatches() | endif
 
 " Whitelist of filetypes to enable word wrap
 let word_wrap_whitelist = ['markdown', 'text']
@@ -378,7 +378,7 @@ autocmd BufRead,BufNewFile Podfile set filetype=ruby
 " In help buffers, use `q` to close the help
 autocmd FileType help nnoremap <buffer> q :q<CR>
 
-" Blacklist of filetypes where CR can't be remapped
+" Blacklist of filetypes where <CR> can't be remapped
 let cr_noh_mapping_blacklist = ["qf", "netrw", "unite"]
 
 " Use <CR> for :noh, except for the specified filetypes
@@ -521,8 +521,8 @@ autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-V> unite#do_action('
 " TODO: Do the same as the above but for tabs
 
 autocmd FileType unite nmap <buffer> q <Plug>(unite_exit)
-autocmd FileType unite nmap <buffer> <esc> <Plug>(unite_exit)
-autocmd FileType unite imap <buffer> <esc> <Plug>(unite_exit)
+autocmd FileType unite nmap <buffer> <Esc> <Plug>(unite_exit)
+autocmd FileType unite imap <buffer> <Esc> <Plug>(unite_exit)
 
 " NeoComplete
 " -----------
