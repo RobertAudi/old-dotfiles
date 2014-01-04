@@ -51,11 +51,11 @@ NeoBundle "leshill/vim-json.git"
 NeoBundle "Yggdroot/indentLine.git"
 NeoBundle "tsukkee/unite-help.git"
 NeoBundle "godlygeek/tabular.git"
-NeoBundle "Raimondi/delimitMate.git"
 NeoBundle "vim-ruby/vim-ruby.git"
 NeoBundle "int3/vim-extradite.git"
 NeoBundle "chrisbra/csv.vim.git"
 NeoBundle "sickill/vim-pasta.git"
+NeoBundle "jiangmiao/auto-pairs.git"
 NeoBundle "SirVer/ultisnips.git"
 NeoBundle "joedicastro/vim-multiple-cursors.git"
 NeoBundle "duff/vim-bufonly.git"
@@ -367,6 +367,9 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 
 " 4 Tabs/Spaces for Objective-C
 autocmd FileType objc,objcpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
+
+" Auto-close pipes in ruby and rails
+autocmd FileType ruby,rails let b:AutoPairs = { "(" : ")", "[" : "]", "{" : "}", "'" : "'", "\"" : "\"", "`" : "`", "|" : "|" }
 
 " Syntax hilighting for Podfiles
 autocmd BufRead,BufNewFile Podfile set filetype=ruby
