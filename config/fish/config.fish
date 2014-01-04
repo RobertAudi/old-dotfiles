@@ -18,7 +18,7 @@ set -gx PDOTS "$HOME/.dotfiles.pub"
 set -gx USER_TMPDIR "$HOME/tmp"
 
 # List the dot packages to use
-set -gx DOT_PACKAGES "chrubygems" "gishtank"
+set -gx DOT_PACKAGES "chrubygems" "gish" "gishtank"
 
 # NVim
 set -gx NVIM_HOME "$DOTS/home/notational"
@@ -78,6 +78,12 @@ if test -f "$HOME/.gishtank/gtinit.fish"
   set -gx GISHTANK_HOOKS "prepare-commit-msg"
 else
   log message error "gishtank not installed."
+end
+
+if test -f "$HOME/.gish/init.fish"
+  . $HOME/.gish/init.fish
+else
+  log message error "gish not installed."
 end
 
 # Remove duplicate entries in different variables
