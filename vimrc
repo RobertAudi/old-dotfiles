@@ -740,7 +740,8 @@ endif
 nmap <F1> <Esc>
 
 " Disable Ex mode
-nnoremap Q <Nop>
+" Instead use Q to reapeat the last macro
+nnoremap Q @@
 
 " Change into the blackhole register to not clobber the last yank
 nnoremap c "_c
