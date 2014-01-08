@@ -18,7 +18,7 @@ set -gx PDOTS "$HOME/.dotfiles.pub"
 set -gx USER_TMPDIR "$HOME/tmp"
 
 # List the dot packages to use
-set -gx DOT_PACKAGES "chrubygems" "gish" "gishtank"
+set -gx DOT_PACKAGES "chrubygems" "gish"
 
 # NVim
 set -gx NVIM_HOME "$DOTS/home/notational"
@@ -69,15 +69,6 @@ if test -f "$HOME/.chrubygems/init.fish"
   chruby ruby-2.0.0-p353 > /dev/null
 else
   log message error "chrubygems not installed. Using system ruby instead."
-end
-
-# gishtank
-if test -f "$HOME/.gishtank/gtinit.fish"
-  . $HOME/.gishtank/gtinit.fish
-  set -gx GISHTANK_ADD_OPTIONS "verbose"
-  set -gx GISHTANK_HOOKS "prepare-commit-msg"
-else
-  log message error "gishtank not installed."
 end
 
 if test -f "$HOME/.gish/init.fish"
