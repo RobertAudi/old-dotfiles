@@ -28,7 +28,6 @@ NeoBundle "tpope/vim-repeat.git"
 NeoBundle "tpope/vim-commentary.git"
 NeoBundle "tpope/vim-fugitive.git"
 NeoBundle "tpope/vim-pastie.git"
-NeoBundle "tpope/vim-markdown.git"
 NeoBundle "tpope/vim-vinegar.git"
 
 NeoBundle "mattn/emmet-vim.git"
