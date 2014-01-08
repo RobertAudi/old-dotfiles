@@ -29,6 +29,7 @@ NeoBundle "tpope/vim-commentary.git"
 NeoBundle "tpope/vim-fugitive.git"
 NeoBundle "tpope/vim-pastie.git"
 NeoBundle "tpope/vim-vinegar.git"
+NeoBundle "tpope/vim-eunuch.git"
 
 NeoBundle "mattn/emmet-vim.git"
 NeoBundle "mattn/webapi-vim.git"
@@ -67,6 +68,9 @@ NeoBundle "gorodinskiy/vim-coloresque.git"
 " NeoBundle "roman/golden-ratio.git"
 NeoBundle "Eivy/applescript.vim.git"
 NeoBundle "thinca/vim-ambicmd.git"
+NeoBundle "bling/vim-bufferline.git"
+NeoBundle "mhinz/vim-startify.git"
+NeoBundle "hail2u/vim-css3-syntax.git"
 
 syntax on
 filetype plugin indent on
@@ -542,9 +546,27 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
+" bufferline
+" ----------
+let g:bufferline_echo = 0
+nnoremap <Leader>l :echo bufferline#get_echo_string()<CR>
+
 " GoldenRatio
 " -----------
 let g:golden_ratio_filetypes_blacklist = ["unite"]
+
+" Startify
+" --------
+let g:startify_skiplist = [
+      \ ".git",
+      \ ".gems"
+      \ ]
+let g:startify_list_order = [
+      \ [' Last recently modified files in the current directory:'],
+      \ 'dir',
+      \ [' Last recently opened files:'],
+      \ 'files'
+      \ ]
 
 " Vinegar
 " -------
