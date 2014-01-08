@@ -807,6 +807,16 @@ xnoremap <C-V> v
 " Select the entire file
 nnoremap <Leader>a :keepjumps normal ggVG<CR>
 
+" Yank entire buffer with gy
+nnoremap gy :%y+<CR>
+
+" Create newlines without entering insert mode
+nnoremap go o<Esc>k
+nnoremap gO O<Esc>j
+
+" Remap U to <C-r> for easier redo
+nnoremap U <C-R>
+
 " Keep search matches in the middle of the window
 nnoremap <silent> n nzz
 nnoremap <silent> N Nzz
