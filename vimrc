@@ -826,6 +826,10 @@ nmap <LocalLeader>e :e <C-R>=getcwd() . "/" <CR>
 nmap <LocalLeader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
 nmap <LocalLeader>te :tabe <C-R>=getcwd() . "/" <CR>
 nmap <LocalLeader>tee :tabe <C-R>=expand("%:p:h") . "/" <CR>
+nmap <LocalLeader>sp :sp <C-R>=getcwd() . "/" <CR>
+nmap <LocalLeader>spp :sp <C-R>=expand("%:p:h") . "/" <CR>
+nmap <LocalLeader>vsp :vsp <C-R>=getcwd() . "/" <CR>
+nmap <LocalLeader>vspp :vsp <C-R>=expand("%:p:h") . "/" <CR>
 
 " Opens an edit command with the path of the fish functions directory filled in
 nnoremap <expr> <LocalLeader>ff getcwd() =~ $HOME . "/.homesick/repos/dotfiles" ? ':e <C-R>=getcwd()<CR>/home/.config/fish/functions/' : ':echoerr "You are not in the dotfiles directory!"<CR>'
