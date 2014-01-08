@@ -380,7 +380,12 @@ autocmd FileType ruby,rails let b:AutoPairs = { "(" : ")", "[" : "]", "{" : "}",
 " Syntax hilighting for Podfiles
 autocmd BufRead,BufNewFile Podfile set filetype=ruby
 
-" In help buffers, use `q` to close the help
+" In help buffers:
+" - Use Enter to follow a tag
+" - Use Backspace to go back
+" - Use `q` to close the help
+autocmd filetype help nnoremap <buffer> <CR> <C-]>
+autocmd filetype help nnoremap <buffer> <BS> <C-T>
 autocmd FileType help nnoremap <buffer> q :q<CR>
 
 " Blacklist of filetypes where <CR> can't be remapped
