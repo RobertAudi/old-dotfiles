@@ -368,7 +368,7 @@ autocmd BufEnter * hi ColorColumn guibg=#7b0409
 
 " Reopen files on the same line they were in before they were closed the
 " last time... if that makes sense...
-autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") && &ft != "gitcommit"
       \| exe "normal! g'\"zz" | endif
 
 " 4 Tabs/Spaces for Objective-C
