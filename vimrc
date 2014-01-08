@@ -545,6 +545,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-N>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-P>" : "\<TAB>"
 inoremap <expr><BS> neocomplete#smart_close_popup() . "\<C-H>"
 inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() . "\<Space>" : "\<Space>"
 
