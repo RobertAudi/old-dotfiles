@@ -670,7 +670,7 @@ if has('gui_running')
   let g:lightline = {
         \ 'colorscheme': 'jellybeans',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
         \   'right': [ [ 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'component_function': {
