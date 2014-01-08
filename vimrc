@@ -404,9 +404,6 @@ autocmd CursorHoldI * stopinsert
 " Leave Insert mode when Vim lost focus
 autocmd FocusLost * call feedkeys("\<C-[>")
 
-" Always start on first line of git commit message
-autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
-
 " Vimscript comment headers
 autocmd FileType vim nmap <buffer> <LocalLeader>1 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr=:set autoindent smartindent<CR>
 autocmd FileType vim nmap <buffer> <LocalLeader>2 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr-:set autoindent smartindent<CR>
@@ -414,6 +411,9 @@ autocmd FileType vim nmap <buffer> <LocalLeader>2 ^vg_olly:set noautoindent nosm
 " Git commit messages have spellcheck and start in insert mode
 autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
 autocmd BufNewFile,BufRead COMMIT_EDITMSG call feedkeys('ggi', 't')
+
+" Always start on first line of git commit message
+autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 " Open new tabs at the end
 autocmd BufNew * if &showtabline && winnr("$") == 1 | tabmove | endif
