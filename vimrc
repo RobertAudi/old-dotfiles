@@ -515,7 +515,7 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
 nnoremap <C-P> :Unite -start-insert file_rec/async<CR>
-nnoremap <C-B> :Unite -start-insert -quick-match buffer<CR>
+nnoremap <C-B> :Unite -start-insert buffer<CR>
 nnoremap <C-F> :Unite grep:.<CR>
 nnoremap <C-Y> :Unite history/yank<CR>
 nnoremap <Leader>t :Unite -vertical -winwidth=40 -direction=topleft -toggle outline<CR>
