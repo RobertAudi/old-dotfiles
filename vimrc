@@ -804,7 +804,7 @@ nnoremap <C-V> v
 xnoremap v <C-V>
 xnoremap <C-V> v
 
-" Make vaa select the entire file
+" Select the entire file
 nnoremap <Leader>a :keepjumps normal ggVG<CR>
 
 " Keep search matches in the middle of the window
