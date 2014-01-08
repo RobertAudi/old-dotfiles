@@ -153,9 +153,10 @@ set background=dark
 colorscheme base16-railscasts
 
 " Disable backups, swaps and all that shit"
-set nobackup
-set nowritebackup
-set noswapfile
+silent !mkdir -p ~/tmp/vimbackup > /dev/null 2>&1
+set backupdir=~/tmp/vimbackup
+set directory=~/tmp/vimbackup
+set backup
 
 "Save buffer every 10 chars typed
 set updatecount=10
