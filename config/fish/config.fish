@@ -71,13 +71,13 @@ if test -f "$HOME/.chrubygems/init.fish"
   # Default ruby
   chruby ruby-2.0.0-p353 > /dev/null
 else
-  log message error "chrubygems not installed. Using system ruby instead."
+  log "chrubygems not installed. Using system ruby instead."
 end
 
 if test -f "$HOME/.gish/init.fish"
   . $HOME/.gish/init.fish
 else
-  log message error "gish not installed."
+  log "gish not installed."
 end
 
 # Remove duplicate entries in different variables

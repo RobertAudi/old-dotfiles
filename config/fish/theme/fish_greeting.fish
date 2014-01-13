@@ -17,7 +17,7 @@ function fish_greeting
     set -e NEW_SESSION_CMD
   end
 
-  log message info "User `$USER` opened a new terminal session"
+  log "User `$USER` opened a new terminal session"
 end
 
 function __aziz_light
