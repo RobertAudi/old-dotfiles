@@ -24,6 +24,6 @@ function cd --description="Change directory"
     echo -n "In: "
     pwd
     set_color normal
-    /bin/ls -AG
+    command ls -AG
   end
 end
