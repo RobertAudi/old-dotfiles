@@ -23,6 +23,9 @@ set -gx DOT_PACKAGES "chrubygems" "gish"
 # NVim
 set -gx NVIM_HOME "$DOTS/home/notational"
 
+# Enable dev mode
+set -gx DEV_MODE "debug"
+
 # PATH
 # ----
 # Add the fish bin to the $PATH
