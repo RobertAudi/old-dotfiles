@@ -45,6 +45,7 @@ NeoBundle "AzizLight/vim-fish.git"
 NeoBundle "AzizLight/TaskList.vim.git"
 NeoBundle "AzizLight/ingo-library.git"
 NeoBundle "AzizLight/EnhancedJumps.git"
+NeoBundle "AzizLight/vim-markdown.git"
 
 NeoBundle "pangloss/vim-javascript.git"
 NeoBundle "leshill/vim-json.git"
