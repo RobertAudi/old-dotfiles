@@ -71,6 +71,7 @@ NeoBundle "thinca/vim-ambicmd.git"
 NeoBundle "bling/vim-bufferline.git"
 NeoBundle "mhinz/vim-startify.git"
 NeoBundle "hail2u/vim-css3-syntax.git"
+NeoBundle "skalnik/vim-vroom.git"
 
 syntax on
 filetype plugin indent on
@@ -322,6 +323,19 @@ function! WordCount()
   echo 'Words: ' . l:current
 endfunction
 
+function! RunAllRSpecSpecs()
+  if executable("rspec")
+    if isdirectory("spec")
+      exec ":!rspec --no-color spec"
+    else
+      echoerr "spec directory not found"
+    endif
+  else
+    echoerr "RSpec not installed!"
+  endif
+endfunction
+autocmd FileType ruby,rails nnoremap <LocalLeader>r :call RunAllRSpecSpecs()<CR>
+
 " Commands
 " ========
 " Taken from http://blog.sanctum.geek.nz/vim-command-typos/
@@ -379,6 +393,10 @@ autocmd FileType ruby,rails let b:AutoPairs = { "(" : ")", "[" : "]", "{" : "}",
 
 " Syntax hilighting for Podfiles
 autocmd BufRead,BufNewFile Podfile set filetype=ruby
+
+" Spec files are RSpec
+" Used for Ultisnips
+autocmd BufRead,BufNewFile *_spec.rb set filetype=rspec.ruby
 
 " In help buffers:
 " - Use Enter to follow a tag
