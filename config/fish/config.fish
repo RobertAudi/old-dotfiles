@@ -63,7 +63,7 @@ end
 # chrubygems
 if test -f "$HOME/.chrubygems/init.fish"
   . $HOME/.chrubygems/init.fish
-  set -gx CHGEMS_BASE_LIST "$HOME/.chgems_global_gems"
+  set -gx CHGEMS_GLOBAL_GEMS "$HOME/.chgems_global_gems"
 
   # Default ruby
   chruby ruby-2.0.0-p353 > /dev/null
