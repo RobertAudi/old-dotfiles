@@ -26,4 +26,12 @@ function cd --description="Change directory"
     set_color normal
     command ls -AG
   end
+
+  type chgems > /dev/null
+
+  if test $status -eq 0
+    if test -d ".gem"
+      chgems
+    end
+  end
 end
