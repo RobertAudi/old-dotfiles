@@ -1,5 +1,5 @@
 function dot --description="dotfiles management tool"
-  __dot_parse_options $argv
+  __parse_options $argv
 
   if test $ARGC -gt 0
     set -l cmd $ARGV[1]

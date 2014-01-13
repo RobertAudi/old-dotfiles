@@ -1,4 +1,4 @@
-function __dot_parse_options --description="Parse options"
+function __parse_options --description="Parse options"
   set -l argc (count $argv)
   set -l optc 0
 
