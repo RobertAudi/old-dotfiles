@@ -11,8 +11,6 @@ function unique --description 'Remove duplicates from environment variable'
     end
 
     set $argv $newvar
-    test $count -gt 0
-    and log message info "Removed $count duplicates from $argv"
   else
     for a in $argv
       unique $a
