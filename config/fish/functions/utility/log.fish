@@ -10,7 +10,7 @@ function log
         command tail -f $logfile
       case "-c"
         # FIXME: Archive the log file before emptying it
-        echo -n "" > $logfile
+        shlog log --archive
       end
     end
   else
