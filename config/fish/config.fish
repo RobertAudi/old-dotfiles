@@ -1,6 +1,8 @@
 # Base16 Railscast for the shell
 eval sh $HOME/.base16-railscasts.dark.sh
 
+. $HOME/.dotfiles/config/fish/config.private.fish
+
 # ENV variables
 # -------------
 # Editors and pager
