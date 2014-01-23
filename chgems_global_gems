@@ -3,3 +3,5 @@ pry
 lunchy
 notes-cli
 shlog
+gem-browse
+gem-ctags
