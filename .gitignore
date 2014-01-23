@@ -15,3 +15,7 @@ moc/last_directory
 moc/softmixer
 moc/pid
 moc/playlist.m3u
+
+# Vim
+vim/bundle/*
+vim/.netrwhist
