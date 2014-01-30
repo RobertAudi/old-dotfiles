@@ -28,6 +28,9 @@ set -gx NVIM_HOME "$DOTS/home/notational"
 # Enable dev mode
 set -gx DEV_MODE "debug"
 
+# Make autojump case-insensitive
+set -gx AUTOJUMP_IGNORE_CASE 1
+
 # PATH
 # ----
 # Add the fish bin to the $PATH
