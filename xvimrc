@@ -1,0 +1,50 @@
+set nonumber
+set ignorecase
+set smartcase
+set clipboard=unnamed
+
+" Visual Block mode is far more useful that Visual mode
+nmap v <C-v>
+nmap <C-v> v
+vmap v <C-v>
+vmap <C-v> v
+
+" Do not exit visual mode when shifting
+vmap > >gv
+vmap < <gv
+
+" Movement through splits
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+" Assistant editor
+nmap <C-q> <C-w>q
+nmap <C-n> <C-w>v
+
+" Keep search matches in the middle of the window
+nmap n nzz
+nmap N Nzz
+
+" Select the contents of the current line, excluding indentation.
+nmap vv ^v$
+
+" Remap H and L to beggining and end of the line
+map H ^
+map L $
+
+" Don't move on */#
+nmap * *zz
+nmap # #zz
+
+" Same as C-o/C-i but centers the text
+nnoremap <C-o> <C-o>zz
+nnoremap <C-i> <C-i>zz
+
+nmap ,s :%s//g<Left><Left>
+vmap ,s :s//g<Left><Left>
+
+" No scrollbars
+set guioptions-=r
+set guioptions-=b
