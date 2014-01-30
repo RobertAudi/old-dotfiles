@@ -68,7 +68,6 @@ cnoremap <C-N> <down>
 cnoremap <C-F> <right>
 cnoremap <C-B> <left>
 
-" Taken from https://github.com/dubgeiser/vimconfig
 " Do not exit visual mode when shifting
 xnoremap > >gv
 xnoremap < <gv
@@ -89,8 +88,8 @@ nnoremap gy :%y+<CR>
 nnoremap go o<Esc>k
 nnoremap gO O<Esc>j
 
-" Remap U to <C-r> for easier redo
-nnoremap U <C-R>
+" Remap U to nothing, I hate U!
+nnoremap U <Nop>
 
 " Keep search matches in the middle of the window
 nnoremap <silent> n nzz
