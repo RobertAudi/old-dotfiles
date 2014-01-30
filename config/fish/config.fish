@@ -59,6 +59,9 @@ set fish_function_path $HOME/.config/fish/functions/utility $fish_function_path
 # Debug functions
 set fish_function_path $HOME/.config/fish/functions/debug $fish_function_path
 
+# Hooks
+set fish_function_path $HOME/.config/fish/functions/hooks $fish_function_path
+
 # Load shit that changes the Fish shell
 set fish_function_path $HOME/.config/fish/load $fish_function_path
 
@@ -89,6 +92,9 @@ end
 for var in PATH fish_function_path
   unique $var
 end
+
+# Because fish hooks are broken...
+__ruby_motion_hook
 
 # Alias git to hub
 eval (hub alias -s)
