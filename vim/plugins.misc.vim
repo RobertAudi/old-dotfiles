@@ -1,3 +1,7 @@
+" Emmet
+" -----
+let g:user_emmet_leader_key='<C-E>'
+
 " bufferline
 " ----------
 let g:bufferline_echo = 0
