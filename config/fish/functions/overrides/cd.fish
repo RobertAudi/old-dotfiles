@@ -11,7 +11,18 @@ function cd --description="Change directory"
     if test (count $argv) -eq 0
       set dir "$HOME"
     else
-      set dir "$argv[1]"
+      if test (count (echo "$argv[1]" | command grep -E "\.\.\.+")) -eq 1
+        set -l tmp_dir "$argv[1]"
+        # echo -n "$tmp_dir" | sed -E "s/(\.\.?\/)*(\.\.\.+)/\2/g" | tr -d '\n' | wc -c | sed -E "s/^[ \t]*//g"
+
+        while test (echo -n "$tmp_dir" | sed -E "s/(\.\.?\/)*(\.\.\.+)/\2/g") != (echo -n "$tmp_dir" | sed -E "s/((\.\.?\/)*)(\.)(\.{2,})\$/\1.\3\/\4/")
+          set tmp_dir (echo -n "$tmp_dir" | sed -E "s/((\.\.?\/)*)(\.)(\.{2,})\$/\1.\3\/\4/")
+        end
+
+        set dir "$tmp_dir"
+      else
+        set dir "$argv[1]"
+      end
     end
 
     if test $dir != $PWD
@@ -19,6 +30,12 @@ function cd --description="Change directory"
     end
 
     pushd $dir
+
+    if test (count (pwd | command grep "$HOME")) -eq 0
+      set_color yellow
+      echo "Warning: You got out of your home directory!"
+      set_color normal
+    end
 
     set_color yellow
     echo -n "In: "
