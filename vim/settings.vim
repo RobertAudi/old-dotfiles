@@ -68,23 +68,24 @@ set nojoinspaces
 " Don't reset cursor to start of line when moving around.
 set nostartofline
 
-" Disable backups, swaps and all that shit"
-silent !mkdir -p ~/tmp/vimbackup > /dev/null 2>&1
-set backupdir=~/tmp/vimbackup
-set directory=~/tmp/vimbackup
+" Backups, swaps and all that shit
+silent !mkdir -p ~/tmp/vim/vimbackup > /dev/null 2>&1
+set backupdir=~/tmp/vim/vimbackup
+set directory=~/tmp/vim/vimbackup
 set backup
 
-"Save buffer every 10 chars typed
+" Save buffer every 10 chars typed
 set updatecount=10
 
 " History
 set history=1000
 
 " Persistent Undo
-set undofile                " Save undo's after file closes
+" Save undo's after file closes
+set undofile
 " Create the undo dir if it doesn't exist
-silent !mkdir -p ~/tmp/vimundo > /dev/null 2>&1
-set undodir=$HOME/tmp/vimundo " where to save undo histories
+silent !mkdir -p ~/tmp/vim/vimundo > /dev/null 2>&1
+set undodir=$HOME/tmp/vim/vimundo " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
 
@@ -116,7 +117,3 @@ endif
 set background=dark
 let base16colorspace=256
 colorscheme base16-railscasts
-
-" Use a bar-shaped cursor for insert mode
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"

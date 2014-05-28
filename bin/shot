@@ -1,0 +1,241 @@
+#!/usr/bin/env zsh
+
+#### CONFIG #######################################################################################
+
+#### !!! REQUIRED !!! Put your imgur API key in the `IMGUR_KEY` environment variable.
+
+#### Image format
+# local image_format="jpg"
+
+#### Show cursor (only in full screen screenshots)
+local show_cursor="false"
+
+#### screenshot file
+local save_file="false"
+
+#### `save_file` options
+#### These configs are only valid if `save_file` is "true" !!!!
+# local screenshot_dir="$HOME/Pictures/screenshots"       # Defaults to the user's home dir
+# local screenshot_prefix=""
+
+#### url
+local copy_url="true"
+
+#### Web browser
+#### The `browser_cmd` config is only valid if `open_in_browser` is "true"
+local open_in_browser="true"
+local browser_cmd="open -a Firefox"       # Defaults to "open" if not set
+
+#### Misc
+local quiet="false"       # No sounds?
+
+#### END CONFIG ###################################################################################
+
+
+
+
+
+#### FUNCTIONS ####################################################################################
+
+#### Required dependencies ####
+local requirements
+requirements=( "grep" "terminal-notifier" "screencapture" "pbcopy" "curl" "jq" )
+
+#### Utility variables ####
+local default_color="\e[39m"
+local red_color="\e[31m"
+local green_color="\e[32m"
+
+help() {
+  IFS='' read -r -d '' usage <<"USAGE"
+Usage
+=====
+
+shot help  (aliased to h)        Show this message
+shot check (aliased to c)        Check installation
+
+shot [<type>] [<timeout>]        Take a screenshot
+
+Types
+-----
+
+full       (aliased to f)        Full screen
+window     (aliased to w)        Select a window
+area       (aliased to a)        Select an area
+
+If no type is specified, the "full" type is implied.
+For any screenshot type, a timeout can be passed as the
+last argument to delay the capture.
+USAGE
+
+  echo -n "$usage"
+}
+
+check() {
+  local verbose
+
+  if [[ "$1" == "verbose" ]]; then
+    verbose="true"
+  else
+    verbose="false"
+  fi
+
+  local status_code=0
+
+  for prog in $requirements; do
+    if type "$prog" > /dev/null 2>&1; then
+      if [[ "$verbose" == "true" ]]; then
+        echo "${green_color}OK$default_color    found $prog"
+      fi
+    else
+      echo "${red_color}ERROR$default_color $prog not found"
+      status_code=1
+    fi
+  done
+
+  return $status_code
+}
+
+notify() {
+  terminal-notifier -title "$1" -message "$2"
+}
+
+upload() {
+  local response="$(curl --connect-timeout "5" -m "120" --retry "1" -s -F "image=@$1" -H "Authorization: Client-ID $IMGUR_KEY" "https://api.imgur.com/3/image")"
+  local status_code=$?
+
+  [[ $status_code -eq 0 ]] || (echo "${red_color}ERROR:$default_color Check your internet connection" && return $status_code)
+
+  local success="$(echo "$response" | jq -r ".success")"
+
+  if [[ "$success" == "true" ]]; then
+    local url="$(echo "$response" | jq -r '.data["link"]')"
+
+    echo "${green_color}Screenshot URL:${default_color} $url"
+
+    if [[ "$copy_url" == "true" ]]; then
+      echo -n $url | pbcopy
+    fi
+
+    notify "Imgur: Upload done!" "$url"
+
+    if [[ "$open_in_browser" == "true" ]]; then
+      if [[ -n "$browser_cmd" ]]; then
+        eval "$browser_cmd '$url'"
+      else
+        eval "open '$url'"
+      fi
+    fi
+
+    return 0
+  else
+    local error="$(echo "$response" | jq -r '.data["error"]')"
+    echo "${red_color}ERROR:$default_color Upload failed: $error"
+    notify "Imgur: Upload failed" "$error"
+
+    return 1
+  fi
+}
+
+#### END FUNCTIONS ################################################################################
+
+
+
+
+if [[ -z "$IMGUR_KEY" ]]; then
+  echo "${red_color}You need to setup your imgur API key!$default_color"
+  exit 1
+fi
+
+local screenshot_file_name=$(date +"%s")
+
+if [[ -n "$screenshot_prefix" ]]; then
+  screenshot_file_name="${screenshot_prefix}_$screenshot_file_name"
+fi
+
+if [[ -n "$image_format" ]]; then
+  screenshot_file_name="$screenshot_file_name.$image_format"
+else
+  screenshot_file_name="$screenshot_file_name.png"
+fi
+
+local dest_dir
+
+if [[ "$save_file" == "true" ]]; then
+  if [[ -n "$screenshot_dir" ]]; then
+    dest_dir="$screenshot_dir"
+  else
+    dest_dir="$HOME"
+  fi
+else
+  dest_dir="/tmp/shot"
+fi
+
+if [[ ! -d "$dest_dir" ]]; then
+  command mkdir -p "$dest_dir"
+fi
+
+local opts
+
+if [[ -n "$image_format" ]]; then
+  opts="-t $image_format"
+fi
+
+if [[ "$show_cursor" == "true" ]]; then
+  opts="$opts -C"
+fi
+
+if [[ "$quiet" == "true" ]]; then
+  opts="$opts -x"
+fi
+
+if [[ $# -gt 0 ]]; then
+  local timeout=${@: -1}
+
+  if [[ "$timeout" =~ "^[0-9]+\$" ]]; then
+    opts="-T $timeout"
+  fi
+fi
+
+if [[ ! "$1" =~ "^\$|^[0-9]+\$|^f(ull)?\$" ]]; then
+  case "$1" in
+    help|h)
+      help
+      exit 0
+      ;;
+    check|c)
+      check verbose
+      exit $?
+      ;;
+    window|w)
+      opts="$opts -w"
+      ;;
+    area|a)
+      opts="$opts -s"
+      ;;
+    *)
+      echo "${red_color}Invalid screenshot type$default_color"
+      help
+      exit 1
+  esac
+fi
+
+check || exit 1
+
+builtin cd "$dest_dir"
+
+# Take the screenshot
+screencapture $opts $screenshot_file_name
+
+# Upload screenshot to imgur
+upload "$screenshot_file_name"
+local status_code=$?
+
+# Cleanup if needed
+if [[ "$save_file" == "false" ]]; then
+  command rm -f $screenshot_file_name > /dev/null 2>&1
+fi
+
+builtin cd -
+
+exit $status_code

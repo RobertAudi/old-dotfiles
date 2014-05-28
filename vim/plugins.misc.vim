@@ -1,11 +1,25 @@
-" Emmet
-" -----
-let g:user_emmet_leader_key='<C-E>'
-
 " bufferline
 " ----------
 let g:bufferline_echo = 0
 nnoremap <Leader>l :echo bufferline#get_echo_string()<CR>
+
+" Javascript Libraries syntax
+" ---------------------------
+let g:used_javascript_libs = "angularjs,jquery"
+
+" Dash
+" ----
+nmap <silent> <Leader>d <Plug>DashSearch
+let g:dash_map = {
+      \ "zsh"  : "man",
+      \ "sh"   : "bash",
+      \ "javascript" : "js",
+      \ "ruby" : "gem"
+      \ }
+
+" Vim Shell
+" ---------
+let g:vimshell_prompt = "○ "
 
 " GoldenRatio
 " -----------
@@ -39,10 +53,9 @@ autocmd FileType ruby,rails let b:AutoPairs = { "(" : ")", "[" : "]", "{" : "}",
 " ----------
 nnoremap <LocalLeader><LocalLeader> :ZoomWinTabToggle<CR>
 
-" EasyMotion
-" ----------
-let g:EasyMotion_mapping_f = '<Space>'
-let g:EasyMotion_mapping_b = '<S-Space>'
+" Wildfire
+" --------
+let g:wildfire_fuel_map = "<Space>"
 
 " AmbiCMD
 " -------
@@ -60,16 +73,7 @@ nmap gx gccyypgcc
 nmap <C-\> gcc
 xmap <C-\> gc
 
-" UltiSnips
-" ---------
-let g:UltiSnipsEditSplit = "horizontal"
-let g:UltiSnipsExpandTrigger = "<C-J>"
-
-" Surround
-" --------
-" Quickly surroun the word under the cursor
-nnoremap <C-W> viwS
-
 " indentLine
 " ----------
 let g:indentLine_char = '│'
+

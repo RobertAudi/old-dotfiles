@@ -8,6 +8,17 @@ if has("autocmd")
   autocmd InsertLeave * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+$/ | endif
   autocmd BufWinLeave * if &modifiable && &ft != "unite" | call clearmatches() | endif
 
+  " Movement through splits in VimShell
+  autocmd FileType vimshell nunmap <C-W>
+
+  " Manpages are readonly and not modifiable
+  " Also, don't show tabs
+  autocmd FileType man setlocal readonly nomodifiable nolist
+  autocmd FileType man nnoremap <buffer> <silent> q :q<CR>
+
+  " Faster access to manpages
+  autocmd FileType sh,zsh nnoremap <Leader>m :Man<Space>
+
   " Whitelist of filetypes to enable word wrap
   let word_wrap_whitelist = ['markdown', 'text']
 
@@ -34,6 +45,8 @@ if has("autocmd")
   " 4 Tabs/Spaces for Objective-C
   autocmd FileType objc,objcpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
+  autocmd BufRead,BufNewFile *.go set expandtab tabstop=2 shiftwidth=2
+
   " Syntax hilighting for Podfiles
   autocmd BufRead,BufNewFile Podfile set filetype=ruby
 
@@ -47,20 +60,13 @@ if has("autocmd")
   " - Use `q` to close the help
   autocmd filetype help nnoremap <buffer> <CR> <C-]>
   autocmd filetype help nnoremap <buffer> <BS> <C-T>
-  autocmd FileType help nnoremap <buffer> q :q<CR>
+  autocmd FileType help nnoremap <buffer> <silent> q :q<CR>
 
   " Blacklist of filetypes where <CR> can't be remapped
-  let cr_noh_mapping_blacklist = ["qf", "netrw", "unite"]
+  let cr_noh_mapping_blacklist = ["qf", "netrw", "unite", "help", "vimshell"]
 
   " Use <CR> for :noh, except for the specified filetypes
   autocmd FileType * if index(cr_noh_mapping_blacklist, &ft) < 0 | nnoremap <buffer> <CR> :noh<CR><BS> | endif
-
-  " set 'updatetime' to 15 seconds when in insert mode
-  autocmd InsertEnter * let updaterestore = &updatetime | set updatetime=15000
-  autocmd InsertLeave * let &updatetime = updaterestore
-
-  " automatically leave insert mode after 'updatetime' milliseconds of inaction
-  autocmd CursorHoldI * stopinsert
 
   " Leave Insert mode when Vim lost focus
   autocmd FocusLost * call feedkeys("\<C-[>")

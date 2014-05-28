@@ -17,8 +17,8 @@ endif
 let g:unite_split_rule = "bot"
 let g:unite_winheight = 10
 " Create the unite data dir if it doesn't exist
-silent !mkdir -p ~/tmp/vimunite > /dev/null 2>&1
-let g:unite_data_directory = "~/tmp/vimunite"
+silent !mkdir -p ~/tmp/vim/vimunite > /dev/null 2>&1
+let g:unite_data_directory = "~/tmp/vim/vimunite"
 let g:unite_source_history_yank_enable = 1
 let g:unite_force_overwrite_statusline = 0
 let g:unite_prompt = '>>> '

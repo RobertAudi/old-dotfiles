@@ -27,10 +27,6 @@ xnoremap . :normal .<CR>
 " Repeats macro on every line
 xnoremap @ :normal@
 
-" Indent/Unindent
-xmap <Tab> >
-xmap <S-Tab> <
-
 " Faster line completion
 imap <C-L> <C-X><C-L>
 
@@ -43,10 +39,6 @@ xnoremap <leader><space><space> dO<cr><esc>P
 " Same as C-O/C-I but centers the text
 nnoremap <C-O> <C-O>zz
 nnoremap <C-I> <C-I>zz
-
-" Always stay in the center!
-nnoremap <C-U> <C-U>zz
-nnoremap <C-D> <C-D>zz
 
 " Bubble single lines
 nnoremap <Up> ddkP
@@ -65,8 +57,6 @@ cnoremap <C-A> <home>
 cnoremap <C-E> <end>
 cnoremap <C-P> <up>
 cnoremap <C-N> <down>
-cnoremap <C-F> <right>
-cnoremap <C-B> <left>
 
 " Do not exit visual mode when shifting
 xnoremap > >gv
@@ -124,11 +114,11 @@ xnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " Next/Previous buffer
-noremap <C-Left> :bprev<CR>
-noremap <C-Right> :bnext<CR>
-noremap <S-Left> :tabprev<CR>
-noremap <S-Right> :tabnext<CR>
-noremap <Leader>nt :tabnew<CR>
+nnoremap <Left> :bprev<CR>
+nnoremap <Right> :bnext<CR>
+nnoremap <C-E> :tabnext<CR>
+nnoremap <Leader>e :tabprevious<CR>
+nnoremap <Leader>nt :tabnew<CR>
 
 " Opens an edit command with the path of the currently edited file filled in
 nmap <LocalLeader>e :e <C-R>=getcwd() . "/" <CR>
@@ -139,6 +129,10 @@ nmap <LocalLeader>sp :sp <C-R>=getcwd() . "/" <CR>
 nmap <LocalLeader>spp :sp <C-R>=expand("%:p:h") . "/" <CR>
 nmap <LocalLeader>vsp :vsp <C-R>=getcwd() . "/" <CR>
 nmap <LocalLeader>vspp :vsp <C-R>=expand("%:p:h") . "/" <CR>
+
+
+nmap <Leader>t :tabe <C-R>=getcwd() . "/" <CR>
+nmap <Leader>tt :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Uppercase!
 inoremap <C-U> <esc>gUiwea

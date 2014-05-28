@@ -8,5 +8,6 @@ source $HOME/.vim/autocommands.vim
 source $HOME/.vim/mappings.vim
 source $HOME/.vim/plugins.unite.vim
 source $HOME/.vim/plugins.neocomplete.vim
+source $HOME/.vim/plugins.neosnippet.vim
 source $HOME/.vim/plugins.lightline.vim
 source $HOME/.vim/plugins.misc.vim

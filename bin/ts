@@ -1,0 +1,134 @@
+#!/usr/bin/env zsh
+
+commandIsValid() {
+  cmds=( "h" "help" "l" "list" "z" "zip" "rm" "remove" )
+  local cmd="$1"
+
+  for e in $cmds[@]; do
+    if [[ "$e" == "$cmd" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+help() {
+  case $1 in
+    "" | "h" | "help" )
+IFS="" read -r -d "" help <<"USAGE"
+Usage: ts <command> [<args>]
+
+Commands:
+---------
+
+help   (aliased to h)            Show some help
+list   (aliased to l)            List archives or their contents
+zip    (aliased to z)            Create an archive
+remove (aliased to rm)           Remove an archive
+
+Run `ts help <command>` for help on a specific command.
+USAGE
+      ;;
+    "l" | "list" )
+IFS="" read -r -d "" help <<"USAGE"
+Usage: ts list [<archive>]
+
+List all archives, or its contents if the archive is passed as argument.
+USAGE
+      ;;
+
+    "z" | "zip" )
+IFS="" read -r -d "" help <<"USAGE"
+Usage: ts zip <archive-name> [<contents>]
+
+Create an archive. Contents is a file or a directory. Multiple files or directories
+are allowed. If no contents is passed, the file or directory to archive is assumed
+to have the same name as the archive.
+USAGE
+      ;;
+
+    "rm" | "remove" )
+IFS="" read -r -d "" help <<"USAGE"
+Usage: ts remove <archive-name>
+
+Remove the archive with the specified name. Only one archive can be removed at a time.
+USAGE
+      ;;
+    * )
+      echo "\e[31mInvalid command: $1\e[39m"
+      help
+      exit 1
+      ;;
+  esac
+
+  echo -n "$help"
+}
+
+
+if [[ $# -eq 0 ]]; then
+  help
+  exit
+fi
+
+local cmd="$1"
+shift
+
+if [[ "$cmd" == "h" || "$cmd" == "help" ]]; then
+  if [[ $# -eq 0 ]]; then
+    echo -n $usage
+  else
+    help $1
+  fi
+elif [[ "$cmd" == "l" || "$cmd" == "list" ]]; then
+  if [[ $# -eq 0 ]]; then
+    tarsnap --list-archives
+  else
+    tarsnap -tv -f $1
+  fi
+elif [[ "$cmd" == "z" || "$cmd" == "zip" ]]; then
+  local archive="$1"
+
+  if [[ $# -lt 1 ]]; then
+    echo "\e[31mYou need to specify the contents of the archive\e[39m"
+    help zip
+    exit 1
+  elif [[ $# -eq 1 ]]; then
+    if [[ -a "$1" ]]; then
+      if [[ "$archive" =~ ".*/\$" ]]; then
+        archive="${archive%?}"
+      fi
+
+      archive=${archive##/*/}
+
+      tarsnap -c -f $archive $1
+    fi
+  elif [[ $# -ge 2 ]]; then
+    shift
+
+    for f in $@; do
+      if [[ ! -a "$f" ]]; then
+        echo "\e[31mNo such file or directory: $f\e[39m"
+        exit 1
+      fi
+    done
+
+    tarsnap -c -f $archive $@
+  fi
+elif [[ $cmd == "rm" || "$cmd" == "remove" ]]; then
+  if [[ $# -eq 0 ]]; then
+    echo "\e[31mYou need to specify the name of the archive to delete\e[39m"
+    help remove
+    exit 1
+  elif [[ $# -gt 1 ]]; then
+    echo "\e[31mYou can only remove one archive at a time\e[39m"
+    help remove
+    exit 1
+  else
+    tarsnap -d -f $1
+  fi
+else
+  echo "\e[31mInvalid command\e[39m"
+  help
+  exit 1
+fi
