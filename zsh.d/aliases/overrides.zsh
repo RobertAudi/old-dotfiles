@@ -27,3 +27,7 @@ alias vim="mvim"
 
 # Fix a tmux "bug"
 alias tmux="EDITOR= VISUAL= tmux"
+
+# rcm
+alias rcup="command rcup -v"
+alias rcdn="command rcdn -v"

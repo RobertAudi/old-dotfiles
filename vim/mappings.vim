@@ -116,7 +116,8 @@ xnoremap <silent> # :<C-U>
 " Next/Previous buffer
 nnoremap <Left> :bprev<CR>
 nnoremap <Right> :bnext<CR>
-nnoremap <C-E> :tabnext<CR>
+nnoremap <C-E> :bnext<CR>
+nnoremap <C-T> :tabnext<CR>
 nnoremap <Leader>e :tabprevious<CR>
 nnoremap <Leader>nt :tabnew<CR>
 
@@ -129,10 +130,6 @@ nmap <LocalLeader>sp :sp <C-R>=getcwd() . "/" <CR>
 nmap <LocalLeader>spp :sp <C-R>=expand("%:p:h") . "/" <CR>
 nmap <LocalLeader>vsp :vsp <C-R>=getcwd() . "/" <CR>
 nmap <LocalLeader>vspp :vsp <C-R>=expand("%:p:h") . "/" <CR>
-
-
-nmap <Leader>t :tabe <C-R>=getcwd() . "/" <CR>
-nmap <Leader>tt :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Uppercase!
 inoremap <C-U> <esc>gUiwea
@@ -159,6 +156,3 @@ nnoremap Y y$
 nnoremap <Leader>s :%s//g<Left><Left>
 xnoremap <Leader>s :s//g<Left><Left>
 nnoremap <LocalLeader>s :%s/<C-R>=expand("<cword>")<CR>//g<Left><Left>
-
-" Rename a file easily
-nnoremap <LocalLeader>rf :call RenameFile()<CR>

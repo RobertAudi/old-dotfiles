@@ -1,13 +1,3 @@
-# Autojump
-j() {
-  cd $(command autojump $1)
-}
-
-# Create archive
-a() {
-  tar -pczf "$1.tar.gz" $1
-}
-
 # Syntax highlighted cat
 ccat() {
   if ! type pygmentize > /dev/null 2>&1; then

@@ -20,16 +20,6 @@ export PAGER="vimpager"
 export MANPAGER="vimpager"
 export BROWSER="open"
 
-# Go
-export GOPATH="$HOME/Dropbox/Sandbox/go"
-
-# Make autojump case-insensitive
-export AUTOJUMP_IGNORE_CASE=1
-
-# virtualenv
-export PIP_REQUIRE_VIRTUALENV=true
-export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-
 # PATH
 # ----
 export MANPATH
@@ -60,13 +50,14 @@ manpath=( /usr/local/opt/gnu-sed/libexec/gnuman $manpath )
 export MANLIST=$HOME/.manlist
 _manlistgen
 
+# Setup run-help
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/5.0.5/help
+
 # Backward kill on directory delimiter
 autoload -U select-word-style
 select-word-style bash
-
-# Autojump
-fpath=( `brew --prefix`/Cellar/autojump/21.7.1/share/zsh/site-functions $fpath )
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
 # SCM Breeze
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
@@ -94,8 +85,8 @@ manydots-magic
 # Alias git to gh
 eval "$(gh alias -s)"
 
+# Fasd
+eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install posix-alias)"
+
 # Greeting!
 source $HOME/.zsh.d/greeting.zsh
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"

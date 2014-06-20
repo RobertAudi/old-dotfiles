@@ -13,8 +13,3 @@ command! -bang WQA wqa<bang>
 
 " Save and make executable
 command! -bang WX w | !chmod a+x %
-
-" Save a file to an inexistant directory
-command! -nargs=? WW call MagicSave(<q-args>)
-
-command! -nargs=* -complete=file EM call EditMultipleFiles(<f-args>)

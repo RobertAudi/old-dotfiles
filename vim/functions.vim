@@ -5,28 +5,15 @@ function! GlobalColorSettings()
   highlight Cursor ctermfg=Black ctermbg=153 guifg=#000000 guibg=#b0d0f0
 endfunction
 
-function! EditMultipleFiles(...)
-  if a:0 == 0
-    echoerr "No file specified..."
-  else
-    let i = a:0
-    while i > 0
-      execute 'let file = a:' . i
-      execute 'edit ' . file
-      let i = i - 1
-    endwhile
-  endif
-endfunction
+function! OpenPluginRepoInBrowser()
+  let l:line = getline(".")
+  let l:match_position = match(l:line, "NeoBundle")
 
-" Generate a fish function stub with a name based on the filename
-function! GenerateFishFunctionStub()
-  if &ft != "fish"
-    return
-  endif
+  if l:match_position >= 0
+    let l:repo = substitute(substitute(l:line, ".*NeoBundle \"", "", "g"), "\.git\".*", "", "g")
 
-  exec "normal iend"
-  exec "normal Ofunction " . substitute(expand('%:t'), '\.fish$', '', '')
-  exec "startinsert!"
+    silent! execute "!open https://github.com/" . l:repo
+  endif
 endfunction
 
 " Add Bundle item with contents of clipboard
@@ -39,6 +26,7 @@ function! AddBundle()
   endif
 endfunction
 
+" Used by the Memoize function below
 function! GetVisualSelection()
   let l:selection = getline("'<")
   let [line1,col1] = getpos("'<")[1:2]
@@ -59,78 +47,13 @@ function! Memoize(string)
   call search(l:memoized)
 endfunction
 
-" Rename file in current buffer
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    exec ':bd ' . bufnr("#")
-    redraw!
-  endif
-endfunction
-
-" Removes trailing spaces
-function! TrimWhiteSpace()
-  %s/\s\+$//e
-endfunction
-
 " Save a file to an inexistant directory
-function! MagicSave(...)
-  if a:0
-    let directory = fnamemodify(a:1, ':p:h')
-    let file = a:1
-  else
-    let directory = expand('%:p:h')
-    let file = expand('%')
-  endif
-  if !isdirectory(directory)
-    call mkdir(directory, 'p')
-  endif
-  execute 'write' file
-endfunction
+function! MagicSave()
+  let l:directory = expand("%:p:h")
 
-" Count the number of words in the file
-" omitting the headers
-function! WordCount()
-  " This function only works in Markdown files
-  if &filetype != 'markdown'
-    return
-  endif
+  if !isdirectory(l:directory)
+    call mkdir(l:directory, "p")
 
-  let l:currentLine = 0
-  let l:numOfLines = line('$')
-  let l:current = 0
-
-  while l:currentLine <= l:numOfLines
-    let l:currentLineContent = getline(l:currentLine)
-    let l:nextLineContent = getline(l:currentLine + 1)
-
-    if match(l:currentLineContent, '^#\+ .\+') >= 0
-      let l:currentLine += 1
-      continue
-    elseif match(l:nextLineContent, '^[=-]\+$') >= 0
-      let l:currentLine += 2
-      continue
-    else
-      let l:numOfWordsInLine = tlib#string#TrimLeft(system('echo "' . l:currentLineContent . '" | wc -w'))
-      let l:current += l:numOfWordsInLine
-      let l:currentLine += 1
-    endif
-  endw
-
-  echo 'Words: ' . l:current
-endfunction
-
-function! RunAllRSpecSpecs()
-  if executable("rspec")
-    if isdirectory("spec")
-      exec ":!rspec --no-color spec"
-    else
-      echoerr "spec directory not found"
-    endif
-  else
-    echoerr "RSpec not installed!"
+    echo "Created non-existing directory: " . l:directory
   endif
 endfunction

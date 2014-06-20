@@ -1,1 +1,1 @@
-EXCLUDES="README.md LICENSE Brewfile config/fish/fish_read_history config/fish/fish_history"
+EXCLUDES="README.md LICENSE"

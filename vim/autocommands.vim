@@ -2,14 +2,8 @@ if has("autocmd")
   " Disable all beeps and flashes, ALL THE FUCKING TIME!
   autocmd VimEnter * set visualbell t_vb=
 
-  " Highlight unwanted spaces
-  autocmd BufWinEnter * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+$/ | endif
-  autocmd InsertEnter * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
-  autocmd InsertLeave * if &modifiable && &ft != "unite" | match ExtraWhitespace /\s\+$/ | endif
-  autocmd BufWinLeave * if &modifiable && &ft != "unite" | call clearmatches() | endif
-
-  " Movement through splits in VimShell
-  autocmd FileType vimshell nunmap <C-W>
+  " Create directory tree if it doesn't exist when creating a new file
+  autocmd BufWritePre * call MagicSave()
 
   " Manpages are readonly and not modifiable
   " Also, don't show tabs
@@ -17,7 +11,7 @@ if has("autocmd")
   autocmd FileType man nnoremap <buffer> <silent> q :q<CR>
 
   " Faster access to manpages
-  autocmd FileType sh,zsh nnoremap <Leader>m :Man<Space>
+  autocmd FileType sh,zsh nnoremap <buffer> <Leader>m :Man<Space>
 
   " Whitelist of filetypes to enable word wrap
   let word_wrap_whitelist = ['markdown', 'text']
@@ -33,33 +27,26 @@ if has("autocmd")
 
   " Reopen files on the same line they were in before they were closed the
   " last time... if that makes sense...
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") && &ft != "gitcommit"
-        \| exe "normal! g'\"zz" | endif
+  function! AutojumpLastPosition()
+    if !exists("b:autojumped_init")
+      let b:autojumped_init = 1
 
-  " .m files are Objective-C
-  autocmd BufRead,BufNewFile *.m set filetype=objc
-
-  " .h files can be Objective-C
-  autocmd BufRead,BufNewFile *.h if match(getline(1, min([line("$"), 200])), '^@\(interface\|end\|class\)') > -1 | set filetype=objc | endif
-
-  " 4 Tabs/Spaces for Objective-C
-  autocmd FileType objc,objcpp setlocal tabstop=4 shiftwidth=4 softtabstop=4
-
-  autocmd BufRead,BufNewFile *.go set expandtab tabstop=2 shiftwidth=2
+      if &ft != "gitcommit" && line("'\"") > 0 && line("'\"") <= line("$")
+        execute "normal! g'\"zz"
+      endif
+    endif
+  endfun
+  au BufReadPost * call AutojumpLastPosition()
 
   " Syntax hilighting for Podfiles
   autocmd BufRead,BufNewFile Podfile set filetype=ruby
-
-  " Spec files are RSpec
-  " Used for Ultisnips
-  autocmd BufRead,BufNewFile *_spec.rb set filetype=rspec.ruby
 
   " In help buffers:
   " - Use Enter to follow a tag
   " - Use Backspace to go back
   " - Use `q` to close the help
-  autocmd filetype help nnoremap <buffer> <CR> <C-]>
-  autocmd filetype help nnoremap <buffer> <BS> <C-T>
+  autocmd FileType help nnoremap <buffer> <CR> <C-]>
+  autocmd FileType help nnoremap <buffer> <BS> <C-T>
   autocmd FileType help nnoremap <buffer> <silent> q :q<CR>
 
   " Blacklist of filetypes where <CR> can't be remapped
@@ -76,10 +63,12 @@ if has("autocmd")
   autocmd FileType vim nmap <buffer> <LocalLeader>2 ^vg_olly:set noautoindent nosmartindent<CR>o<BS> <ESC>p^vg_ollr-:set autoindent smartindent<CR>
 
   " Add a bundle line with the content of the clipboard
-  autocmd FileType vim nmap <LocalLeader>b :call AddBundle()<CR>
+  autocmd FileType vim nmap <buffer> <LocalLeader>b :call AddBundle()<CR>
 
-  " Git commit messages have spellcheck and start in insert mode
-  autocmd BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
+  " Open the github repo of the plugin under the cursor
+  autocmd FileType vim nmap <buffer> <silent> <LocalLeader>o :call OpenPluginRepoInBrowser()<CR>
+
+  " Git commit messages start in insert mode
   autocmd BufNewFile,BufRead COMMIT_EDITMSG call feedkeys('ggi', 't')
 
   " Always start on first line of git commit message
@@ -88,31 +77,15 @@ if has("autocmd")
   " Open new tabs at the end
   autocmd BufNew * if &showtabline && winnr("$") == 1 | tabmove | endif
 
-  " Spell checking for Plain text files
-  autocmd BufNewFile,BufRead,BufEnter *.txt setlocal spell spelllang=en_us
-
   " Set max text width to 100 for text files
   autocmd BufRead,BufNewFile *.txt setlocal textwidth=100
 
-  " .load files are fish files
-  autocmd BufRead,BufNewFile *.load setf fish
-
-  autocmd FileType fish nnoremap <LocalLeader>gf :call GenerateFishFunctionStub()<CR>
-
-  " Prevent the CSV filetype plugin from complaining
-  autocmd BufReadPre *.csv if !exists('b:delimiter') | let b:delimiter=","
-  autocmd BufReadPre *.csv if !exists('b:col') | let b:col='\%(\%([^' . b:delimiter . ']*"[^"]*"[^' . b:delimiter . ']*' . b:delimiter . '\)\|\%([^' . b:delimiter . ']*\%(' . b:delimiter . '\|$\)\)\)'
-
-  autocmd FileType ruby xmap <LocalLeader>m :call Memoize('<C-R>=GetVisualSelection()<CR>')<CR>
-  autocmd FileType ruby nmap <LocalLeader>m :call Memoize('<C-R>=expand("<cword>")<CR>')<CR>
-  autocmd FileType ruby,rails nnoremap <LocalLeader>r :call RunAllRSpecSpecs()<CR>
+  autocmd FileType ruby xmap <buffer> <LocalLeader>m :call Memoize('<C-R>=GetVisualSelection()<CR>')<CR>
+  autocmd FileType ruby nmap <buffer> <LocalLeader>m :call Memoize('<C-R>=expand("<cword>")<CR>')<CR>
 
   " Markdown configuration
   augroup ft_markdown
     autocmd!
-    " Enable spellcheck
-    autocmd BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=en_us
-
     " Headings with ease!
     " Also capitalizes the line
     autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 guu~yypVr=
