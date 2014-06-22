@@ -35,13 +35,17 @@ init() {
 
   exit_or_not $?
 
-  progress "Pushing to Github"
+  if [[ -z $(git status -s) ]]; then
+    succeed "Already up-to-date"
+  else
+    progress "Pushing to Github"
 
-  git add -A
-  git commit -m "Automated synchronization :trollface:" > /dev/null 2>&1
-  git push origin master > /dev/null 2>&1
+    git add -A
+    git commit -m "Automated synchronization :trollface:" > /dev/null 2>&1
+    git push origin master > /dev/null 2>&1
 
-  exit_or_not $?
+    exit_or_not $?
+  fi
 
   progress "Cleaning up"
 

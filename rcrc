@@ -1,1 +1,1 @@
-EXCLUDES="README.md LICENSE Brewfile Gemfile Gemfile.lock install publish"
+EXCLUDES="README.md LICENSE Brewfile Gemfile Gemfile.lock install publish support"
