@@ -1,14 +1,12 @@
+source $HOME/.base16.sh
 source $HOME/.zshuery/zshuery.sh
+source $HOME/.zsh.d/utility.zsh
 load_defaults
 load_aliases
 load_completion $HOME/.zshuery/completion
 load_correction
 
-source $HOME/.zsh.d/utility.zsh
-
 prompts '%{$fg_bold[green]%}$(prompt_pwd)%{$reset_color%} %{$fg[yellow]%}$(prompt_char "○")%{$reset_color%} '
-
-source $HOME/.base16.sh
 
 # ENV variables
 # -------------
@@ -16,8 +14,8 @@ source $HOME/.base16.sh
 export EDITOR="/usr/local/bin/vim"
 export VISUAL="/usr/local/bin/mvim"
 export SUDO_EDITOR="/usr/local/bin/vim"
-export PAGER="vimpager"
-export MANPAGER="vimpager"
+export PAGER="/usr/local/bin/vimpager"
+export MANPAGER="/usr/local/bin/vimpager"
 export BROWSER="open"
 
 # PATH

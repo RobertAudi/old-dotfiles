@@ -2,6 +2,10 @@
 " ----------
 let g:goldenview__enable_default_mapping = 0
 
+" Bonly
+" -----
+nnoremap <C-S> :Bonly<CR>
+
 " EasyTree
 " --------
 let g:easytree_auto_save_settings = 1
@@ -14,21 +18,6 @@ function! FocusOrToggleEasyTree()
   endif
 endfunction
 nnoremap - :call FocusOrToggleEasyTree()<CR>
-
-" Startify
-" --------
-autocmd FileType startify setlocal buftype=
-let g:startify_change_to_dir = 0
-let g:startify_skiplist = [
-      \ ".git",
-      \ ".gems"
-      \ ]
-let g:startify_list_order = [
-      \ [' Last recently modified files in the current directory:'],
-      \ 'dir',
-      \ [' Last recently opened files:'],
-      \ 'files'
-      \ ]
 
 " Auto-pairs
 " ----------
@@ -45,9 +34,9 @@ cnoremap <expr> <Space> ambicmd#expand("\<Space>")
 
 " Gist.vim
 " --------
-let g:gist_clip_command = 'pbcopy'
+let g:gist_clip_command = "pbcopy"
 let g:gist_open_browser_after_post = 1
-let g:gist_browser_command = 'open %URL%'
+let g:gist_browser_command = "open %URL%"
 
 " Commentary
 " ----------
@@ -55,7 +44,7 @@ nmap gx gccyypgcc
 
 " indentLine
 " ----------
-let g:indentLine_char = '│'
+let g:indentLine_char = "│"
 
 " rename.vim
 " ----------
@@ -64,5 +53,11 @@ nnoremap <LocalLeader>rf :Rename!<Space>
 " Better whitespace
 " -----------------
 highlight ExtraWhitespace ctermbg=red guibg=#d63639
-let g:better_whitespace_filetypes_blacklist = ["qf", "unite", "help", "easytree", "startify"]
+let g:better_whitespace_filetypes_blacklist = ["qf", "unite", "help", "easytree"]
 let g:strip_whitespace_on_save = 1
+
+" Ag
+" --
+command! -bang -nargs=1 F Ag<bang> --smart-case --hidden <args>
+nnoremap <C-F> :F!<Space>
+nnoremap <silent> <LocalLeader>f :copen<CR>

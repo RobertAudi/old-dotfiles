@@ -15,10 +15,10 @@ ccat() {
 
 # Copy path to file
 pcf() {
-  grealpath $1 | tr -d '\n' | pbcopy
+  grealpath $1 | tr -d "\n" | pbcopy
 }
 
 # Pretty print the PATH
 lspath () {
-  eval echo \$${1:-PATH} |tr : '\n'
+  eval echo \$${1:-PATH} |tr : "\n"
 }

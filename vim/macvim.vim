@@ -22,9 +22,10 @@ if has("gui_macvim")
 
   " NOTE: I don't use ! in commands intentionally
   function! DeleteAllBuffers()
-    exec "wa"
-    exec "silent Bonly"
-    exec "bd"
+    execute "wa"
+    execute "silent Bonly"
+    execute "bdelete"
   endfunction
   command! BOD call DeleteAllBuffers()
+  nnoremap <silent> <C-Q> :call DeleteAllBuffers()<CR>
 endif

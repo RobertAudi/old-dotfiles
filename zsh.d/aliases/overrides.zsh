@@ -8,11 +8,6 @@ alias chmod="chmod -v"
 alias chown="chown -v"
 alias mkdir="mkdir -vp"
 
-# grep family colors
-alias grep="grep --color=auto"
-alias egrep="egrep --color=auto"
-alias fgrep="fgrep --color=auto"
-
 # Replace the sudo prompt and add some color to it
 alias sudo="sudo -p \"$fg_bold[red][sudo] Password:$fg[default]\" "
 
@@ -24,9 +19,6 @@ alias vi="/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim"
 
 # MacVim is Vim
 alias vim="mvim"
-
-# Fix a tmux "bug"
-alias tmux="EDITOR= VISUAL= tmux"
 
 # rcm
 alias rcup="command rcup -v"

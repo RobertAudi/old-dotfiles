@@ -1,0 +1,58 @@
+#!/usr/bin/env zsh
+
+source $HOME/.dotfiles/support/util.zsh
+
+init() {
+  local initial_pwd=$(command pwd)
+
+  local usrtmpdir="$HOME/tmp"
+
+  [[ ! -d $usrtmpdir ]] && command mkdir $usrtmpdir
+
+  local pubdir=$(echo "${usrtmpdir}/$(randir)")
+  while [[ -d $pubdir ]]; do
+    pubdir=$(echo "${usrtmpdir}/$(randir)")
+  done
+
+  command mkdir $pubdir
+  builtin cd $pubdir
+
+  progress "Getting a fresh copy of the public dotfiles"
+
+  git clone git@github.com:RobertAudi/dotfiles.git $pubdir/dotfiles > /dev/null 2>&1
+
+  exit_or_not $?
+
+  builtin cd dotfiles
+
+  progress "Synchronizing dotfiles"
+
+  command rm -rf * > /dev/null 2>&1
+
+  command cp -R $HOME/.dotfiles/{*,.gitignore} ${pubdir}/dotfiles/ > /dev/null 2>&1
+
+  command rm -f *.private > /dev/null 2>&1
+
+  exit_or_not $?
+
+  progress "Pushing to Github"
+
+  git add -A
+  git commit -m "Automated synchronization :trollface:" > /dev/null 2>&1
+  git push origin master > /dev/null 2>&1
+
+  exit_or_not $?
+
+  progress "Cleaning up"
+
+  builtin cd $usrtmpdir
+  command rm -rf $pubdir
+
+  exit_or_not $?
+
+  builtin cd $initial_pwd
+
+  succeed "All done!!!"
+}
+
+init

@@ -5,10 +5,10 @@ let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#sources#tags#cache_limit_size = 10000000
 let g:neocomplete#max_list = 25
 
-call neocomplete#custom#source('tag', 'converters',
-      \ ['converter_remove_last_paren',
-      \  'converter_delimiter', 'converter_case',
-      \  'converter_disable_abbr', 'converter_abbr'])
+call neocomplete#custom#source("tag", "converters",
+      \ ["converter_remove_last_paren",
+      \  "converter_delimiter", "converter_case",
+      \  "converter_disable_abbr", "converter_abbr"])
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-N>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-P>" : "\<TAB>"

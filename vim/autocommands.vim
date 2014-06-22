@@ -14,13 +14,20 @@ if has("autocmd")
   autocmd FileType sh,zsh nnoremap <buffer> <Leader>m :Man<Space>
 
   " Whitelist of filetypes to enable word wrap
-  let word_wrap_whitelist = ['markdown', 'text']
+  let word_wrap_whitelist = ["markdown", "text"]
 
   " Absolutely NO WRAP!!
-  autocmd BufEnter,BufNewFile * if index(word_wrap_whitelist, &ft) < 0 | set nowrap | endif
+  autocmd BufEnter,BufNewFile * if index(word_wrap_whitelist, &filetype) < 0 | set nowrap | endif
 
   " Call the global color settings on every colorscheme change or when Vim starts.
   autocmd VimEnter,ColorScheme * call GlobalColorSettings()
+
+  " Quit with q on Vim startup if no file has been opened
+  autocmd VimEnter * if len(filter(range(1, bufnr("$")), "buflisted(v:val)")) == 1 &&
+        \ &filetype == "" &&
+        \ expand("%:t") == "" |
+        \ nnoremap <silent> <buffer> q :q<CR> |
+        \ endif
 
   " Change the color of the ColorColumn
   autocmd BufEnter * hi ColorColumn guibg=#7b0409
@@ -31,7 +38,7 @@ if has("autocmd")
     if !exists("b:autojumped_init")
       let b:autojumped_init = 1
 
-      if &ft != "gitcommit" && line("'\"") > 0 && line("'\"") <= line("$")
+      if &filetype != "gitcommit" && line("'\"") > 0 && line("'\"") <= line("$")
         execute "normal! g'\"zz"
       endif
     endif
@@ -44,16 +51,21 @@ if has("autocmd")
   " In help buffers:
   " - Use Enter to follow a tag
   " - Use Backspace to go back
-  " - Use `q` to close the help
+  " - Use `q` or `Esc` to close the help (and the quickfix window)
   autocmd FileType help nnoremap <buffer> <CR> <C-]>
   autocmd FileType help nnoremap <buffer> <BS> <C-T>
-  autocmd FileType help nnoremap <buffer> <silent> q :q<CR>
+  autocmd FileType help,qf nnoremap <buffer> <silent> q :q<CR>
+  autocmd FileType help,qf nnoremap <buffer> <silent> <Esc> :q<CR>
+
+  " Stay in the quickfix window when going through search results
+  " TODO: Highlight the current search result
+  autocmd FileType qf nmap <buffer> <CR> <CR>:copen<CR>
 
   " Blacklist of filetypes where <CR> can't be remapped
-  let cr_noh_mapping_blacklist = ["qf", "netrw", "unite", "help", "vimshell"]
+  let cr_noh_mapping_blacklist = ["qf", "unite", "help"]
 
   " Use <CR> for :noh, except for the specified filetypes
-  autocmd FileType * if index(cr_noh_mapping_blacklist, &ft) < 0 | nnoremap <buffer> <CR> :noh<CR><BS> | endif
+  autocmd FileType * if index(cr_noh_mapping_blacklist, &filetype) < 0 | nnoremap <buffer> <CR> :noh<CR><BS> | endif
 
   " Leave Insert mode when Vim lost focus
   autocmd FocusLost * call feedkeys("\<C-[>")
@@ -69,10 +81,10 @@ if has("autocmd")
   autocmd FileType vim nmap <buffer> <silent> <LocalLeader>o :call OpenPluginRepoInBrowser()<CR>
 
   " Git commit messages start in insert mode
-  autocmd BufNewFile,BufRead COMMIT_EDITMSG call feedkeys('ggi', 't')
+  autocmd BufNewFile,BufRead COMMIT_EDITMSG call feedkeys("ggi", "t")
 
   " Always start on first line of git commit message
-  autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
+  autocmd FileType gitcommit call setpos(".", [0, 1, 1, 0])
 
   " Open new tabs at the end
   autocmd BufNew * if &showtabline && winnr("$") == 1 | tabmove | endif
@@ -80,8 +92,8 @@ if has("autocmd")
   " Set max text width to 100 for text files
   autocmd BufRead,BufNewFile *.txt setlocal textwidth=100
 
-  autocmd FileType ruby xmap <buffer> <LocalLeader>m :call Memoize('<C-R>=GetVisualSelection()<CR>')<CR>
-  autocmd FileType ruby nmap <buffer> <LocalLeader>m :call Memoize('<C-R>=expand("<cword>")<CR>')<CR>
+  autocmd FileType ruby xmap <buffer> <LocalLeader>m :call Memoize("<C-R>=GetVisualSelection()<CR>")<CR>
+  autocmd FileType ruby nmap <buffer> <LocalLeader>m :call Memoize("<C-R>=expand("<cword>")<CR>")<CR>
 
   " Markdown configuration
   augroup ft_markdown
@@ -114,13 +126,13 @@ if has("autocmd")
     autocmd FileType markdown nnoremap <buffer> gj j
     autocmd FileType markdown nnoremap <buffer> gk k
     autocmd FileType markdown nnoremap <buffer> L g$
-    autocmd FileType markdown nnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
+    autocmd FileType markdown nnoremap <expr> <silent> <buffer> H col(".") == match(getline("."),"\S")+1 ? "g0" : "g^"
     " In Visual mode
     autocmd FileType markdown xnoremap <buffer> j gj
     autocmd FileType markdown xnoremap <buffer> k gk
     autocmd FileType markdown xnoremap <buffer> gj j
     autocmd FileType markdown xnoremap <buffer> gk k
     autocmd FileType markdown xnoremap <buffer> L g$
-    autocmd FileType markdown xnoremap <expr> <silent> <buffer> H col('.') == match(getline('.'),'\S')+1 ? 'g0' : 'g^'
+    autocmd FileType markdown xnoremap <expr> <silent> <buffer> H col(".") == match(getline("."),"\S")+1 ? "g0" : "g^"
   augroup END
 endif

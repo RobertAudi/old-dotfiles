@@ -1,5 +1,5 @@
 function! GlobalColorSettings()
-  " Set 'TODO' & 'FIXME' strings to be bold and standout as hell.
+  " Set "TODO" & "FIXME" strings to be bold and standout as hell.
   highlight Todo term=standout ctermfg=196 ctermbg=226 guifg=#ff4500 guibg=#eeee00
 
   highlight Cursor ctermfg=Black ctermbg=153 guifg=#000000 guibg=#b0d0f0
@@ -19,10 +19,10 @@ endfunction
 " Add Bundle item with contents of clipboard
 " FIXME: The `.git` part is added just before the last char...
 function! AddBundle()
-  if (empty(getline('.')))
-    exec "normal iNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"o\<esc>"
+  if (empty(getline(".")))
+    execute "normal iNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"o\<esc>"
   else
-    exec "normal oNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"$"
+    execute "normal oNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"$"
   endif
 endfunction
 
@@ -35,15 +35,15 @@ function! GetVisualSelection()
 endfunction
 
 function! Memoize(string)
-  let l:line = getline('.')
+  let l:line = getline(".")
 
-  let l:memoized = '#{' . a:string . '}'
-  let l:line_parts = matchlist(l:line, '^\(.*\)' . a:string . '\(.*\)$')
+  let l:memoized = "#{" . a:string . "}"
+  let l:line_parts = matchlist(l:line, "^\(.*\)" . a:string . "\(.*\)$")
   call remove(l:line_parts, 0)
 
   let l:new_line = l:line_parts[0] . l:memoized . l:line_parts[1]
 
-  call setline('.', l:new_line)
+  call setline(".", l:new_line)
   call search(l:memoized)
 endfunction
 

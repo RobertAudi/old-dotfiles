@@ -1,0 +1,111 @@
+#!/usr/bin/env zsh
+
+source $HOME/.dotfiles/support/util.zsh
+
+init() {
+  local initial_pwd=$(command pwd)
+
+  [[ "$initial_pwd" != "$HOME/.dotfiles" ]] && builtin cd "$HOME/.dotfiles"
+
+  if ! is_installed brew; then
+    progress "Installing Homebrew"
+
+    ruby "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)" > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  progress "brew bundle" && brew bundle > /dev/null 2>&1
+  succeed " Done"
+
+  if [[ ! -d "$HOME/.rubies/2.1.1" ]]; then
+    progress "Installing Ruby 2.1.1"
+
+    ruby-build "2.1.1" "$HOME/.rubies/2.1.1" > /dev/null 2>&1
+
+    exit_or_not $?
+
+    source /usr/local/opt/chruby/share/chruby/chruby.sh
+  fi
+
+  source /usr/local/opt/chruby/share/chruby/chruby.sh
+  chruby 2.1.1
+
+  if ! is_installed bundle; then
+    progress "Installing Bundler"
+
+    gem install bundler > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  if [[ -d "$HOME/.zshuery" ]]; then
+    progress "Updating zshuery"
+
+    builtin cd "$HOME/.zshuery"
+
+    git pull > /dev/null 2>&1
+
+    exit_if_needed $?
+
+    git submodule update --init --recursive > /dev/null 2>&1
+
+    exit_or_not $?
+  else
+    progress "Installing zshuery"
+
+    builtin cd "$HOME"
+
+    git clone --recursive git@github.com:myfreeweb/zshuery.git "$HOME/.zshuery" > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  if [[ -d "$HOME/.zsh-syntax-highlighting" ]]; then
+    progress "Updating zsh-syntax-highlighting"
+
+    builtin cd "$HOME/.zsh-syntax-highlighting"
+
+    git pull > /dev/null 2>&1
+
+    exit_or_not $?
+  else
+    progress "Installing zsh-syntax-highlighting"
+
+    builtin cd "$HOME"
+
+    git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh-syntax-highlighting" > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  if [[ -d "$HOME/.scm_breeze" ]]; then
+    progress "Updating scm_breeze"
+
+    builtin cd "$HOME/.scm_breeze"
+
+    git pull > /dev/null 2>&1
+
+    exit_or_not $?
+  else
+    progress "Installing scm_breeze"
+
+    builtin cd "$HOME"
+
+    git clone git@github.com:ndbroadbent/scm_breeze.git "$HOME/.scm_breeze" > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  progress "Deploying dotfiles"
+
+  rcup > /dev/null 2>&1
+
+  exit_or_not $?
+
+  builtin cd $initial_pwd
+
+  succeed "All done!!!"
+}
+
+init

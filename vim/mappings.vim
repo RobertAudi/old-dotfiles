@@ -144,8 +144,8 @@ nnoremap <LocalLeader>] V`]=
 nnoremap vv ^vg_
 
 " Remap H and L to beggining and end of the line
-nnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
-xnoremap <expr> <silent> H col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
+nnoremap <expr> <silent> H col(".") == match(getline("."),"\S")+1 ? "0" : "^"
+xnoremap <expr> <silent> H col(".") == match(getline("."),"\S")+1 ? "0" : "^"
 nnoremap L $
 xnoremap L $h
 

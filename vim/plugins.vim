@@ -1,14 +1,14 @@
 filetype off
 
-if has('vim_starting')
+if has("vim_starting")
   set nocompatible
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 
-  if !isdirectory(expand('~/.vim/bundle/neobundle.vim'))
+  if !isdirectory(expand("~/.vim/bundle/neobundle.vim"))
     echo "Installing NeoBundle\n"
 
-    silent execute '!mkdir -p ~/.vim/bundle'
-    silent execute '!git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim'
+    silent execute "!mkdir -p ~/.vim/bundle"
+    silent execute "!git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim"
   endif
 endif
 
@@ -64,16 +64,16 @@ NeoBundle "justinmk/vim-sneak.git"
 NeoBundle "itspriddle/vim-marked.git"
 NeoBundle "chrisbra/Colorizer.git"
 NeoBundle "thinca/vim-ambicmd.git"
-NeoBundle "mhinz/vim-startify.git"
 NeoBundle "hail2u/vim-css3-syntax.git"
 NeoBundle "jtratner/vim-flavored-markdown.git"
 NeoBundle "scrooloose/syntastic.git"
 NeoBundle "troydm/easytree.vim.git"
 NeoBundle "zhaocai/GoldenView.Vim.git"
+NeoBundle "ervandew/ag.git"
 NeoBundle "danro/rename.vim.git"
-" TODO: Use this Plugin again once my Pull Request has been merged
-" NeoBundle "ntpeters/vim-better-whitespace.git"
-NeoBundle "RobertAudi/vim-better-whitespace.git"
+NeoBundle "ntpeters/vim-better-whitespace.git"
+NeoBundle "szw/vim-ctrlspace.git"
+NeoBundle "itchyny/vim-gitbranch.git"
 
 " Automatically install new plugins
 NeoBundleCheck
