@@ -30,3 +30,12 @@ fasd_cd() {
     cd $(fasd -d "$1" -1)
   fi
 }
+
+# Determine size of a file or total size of a directory
+fs() {
+  if [[ -n "$@" ]]; then
+    command du -sbh -- "$@"
+  else
+    command du -csbh .[^.]* *
+  fi
+}

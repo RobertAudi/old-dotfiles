@@ -11,3 +11,6 @@ alias -g ":c"=" | pbcopy"
 
 # STFU!!
 alias -g ":n"="> /dev/null 2>&1"
+
+# count
+alias -g "?#"="| wc -l"

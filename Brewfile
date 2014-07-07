@@ -24,6 +24,7 @@ cask install spark-inspector || true
 cask install totalfinder || true
 cask install transmission || true
 cask install vlc || true
+cask install the-unarchiver || true
 
 install ack || true
 install chruby || true
