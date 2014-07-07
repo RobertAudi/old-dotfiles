@@ -22,3 +22,11 @@ pcf() {
 lspath () {
   eval echo \$${1:-PATH} |tr : "\n"
 }
+
+fasd_cd() {
+  if [[ "$2" == "-i" ]]; then
+    cd $(fasd -id "$1" )
+  else
+    cd $(fasd -d "$1" -1)
+  fi
+}

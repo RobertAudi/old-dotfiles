@@ -7,15 +7,14 @@ mg() {
   fi
 
   local rootdir=${repo%/*}
-  local dbdir=$(find $rootdir -type d -name "*.xcdatamodel" | head -1 | xargs realpath)
+  local xcprojname=$(find $rootdir -iname "*.xcodeproj" -type d -not -path "*Pods/*" | head -1 | xargs basename)
+  local projname=${xcprojname%.*}
+  local dbdir=$(find $rootdir -type d -name "$projname.xcdatamodel" | head -1 | xargs realpath)
 
   if [[ -z "$dbdir" ]]; then
     echo "$fg[red]No data model found!$reset_color"
     return 1
   fi
-
-  local xcprojname=$(find $rootdir -iname "*.xcodeproj" -type d -not -path "*Pods/*" | head -1 | xargs basename)
-  local projname=${xcprojname%.*}
 
   if [[ ! -d $projname ]]; then
     echo "$fg[red]Project directory not found!$reset_color"

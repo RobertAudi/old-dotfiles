@@ -40,6 +40,13 @@ fail() {
   tput sgr0
 }
 
+error_out() {
+  [[ $# -eq 0 ]] && fail "Internal error!" && exit 1
+
+  fail "$1"
+  exit 1
+}
+
 exit_if_needed() {
   [[ $# -eq 0 ]] && fail "Internal error!" && exit 1
 

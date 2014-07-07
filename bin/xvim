@@ -1,0 +1,81 @@
+#!/usr/bin/env zsh
+
+#
+# Script to install/update XVim (Xcode Vim plugin)
+#
+
+source $HOME/.dotfiles/support/util.zsh
+
+init() {
+  fail "Not working due to a bug in xctool"
+  echo "https://github.com/facebook/xctool/issues/378"
+  exit 1
+
+  local initial_pwd=$(command pwd)
+
+  ! is_installed xctool && error_out "xctool not installed"
+
+  if (( $(command ps aux | command grep -i "xcode" | command grep -v "grep" | wc -l)  > 0 )); then
+    progress "Quiting Xcode"
+
+    osascript -e 'tell application "iPhone Simulator" to quit' > /dev/null 2>&1
+
+    exit_if_needed $?
+
+    osascript -e 'tell application "Xcode" to quit' > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  local old_xvim_plugin="$HOME/Library/Application Support/Developer/Shared/Xcode/Plug-ins/XVim.xcplugin"
+
+  if [[ -d $old_xvim_plugin ]]; then
+    progress "Removing the old XVim plugin"
+
+    command rm -rf $old_xvim_plugin > /dev/null 2>&1
+
+    exit_or_not $?
+  fi
+
+  local usrtmpdir="$HOME/tmp"
+
+  [[ ! -d $usrtmpdir ]] && command mkdir $usrtmpdir
+
+  local pubdir=$(echo "${usrtmpdir}/$(randir)")
+  while [[ -d $pubdir ]]; do
+    pubdir=$(echo "${usrtmpdir}/$(randir)")
+  done
+
+  command mkdir $pubdir
+  builtin cd $pubdir
+
+  progress "Getting a fresh copy of XVim"
+
+  git clone git@github.com:JugglerShu/XVim.git $pubdir/XVim > /dev/null 2>&1
+
+  exit_or_not $?
+
+  builtin cd XVim
+
+  git fetch > /dev/null 2>&1
+  git checkout develop > /dev/null 2>&1
+
+  progress "Installing XVim"
+
+  xctool -project "XVim.xcodeproj" -scheme "XVim for Xcode5 and 6" -configuration "Release" build > /dev/null 2>&1
+
+  exit_or_not $?
+
+  progress "Cleaning up"
+
+  builtin cd $usrtmpdir
+  command rm -rf $pubdir
+
+  exit_or_not $?
+
+  builtin cd $initial_pwd
+
+  succeed "All done!!!"
+}
+
+init

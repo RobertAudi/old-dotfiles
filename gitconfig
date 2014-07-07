@@ -4,9 +4,9 @@
 [github]
   user = RobertAudi
 [core]
-  editor = "/usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim"
+  editor = `brew --prefix macvim`/MacVim.app/Contents/MacOS/Vim
   pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
-  excludesfile = ~/.gitignore.global
+  excludesfile = /Users/rob/.gitignore.global
 [color]
   ui = auto
 [color "diff"]
@@ -24,19 +24,3 @@
   default = simple
 [advice]
   statusHints = false
-[difftool "Kaleidoscope"]
-  cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[diff]
-  tool = Kaleidoscope
-[difftool]
-  prompt = false
-[mergetool "Kaleidoscope"]
-  cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-  trustExitCode = true
-[mergetool]
-  prompt = false
-[merge]
-  tool = Kaleidoscope
-[alias]
-  co = checkout
-  cob = checkout -b

@@ -36,6 +36,14 @@ path=( /usr/local/opt/gnu-sed/libexec/gnubin $path )
 # Custom bin dir has the highest priority
 path=( $HOME/.bin $path )
 
+# Go shit (or Goat shit...)
+# -------------------------
+export GOPATH="$HOME/sandbox/go-shit"
+path=( $GOPATH/bin $path )
+if [[ ! -d $GOPATH ]]; then
+  command mkdir -p $GOPATH > /dev/null 2>&1
+fi
+
 # Remove duplicate entries from the PATH
 typeset -U path
 
@@ -84,7 +92,7 @@ manydots-magic
 eval "$(gh alias -s)"
 
 # Fasd
-eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install posix-alias)"
+eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install)"
 
 # Greeting!
 source $HOME/.zsh.d/greeting.zsh
