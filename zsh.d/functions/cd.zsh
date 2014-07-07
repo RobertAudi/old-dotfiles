@@ -1,3 +1,61 @@
+_autoenv() {
+  if [[ $# -ne 1 ]]; then
+    echo "$fg[red]Invalid number of arguments ($#) supplied to the _autoenv function!$reset_color"
+    return 1
+  fi
+
+  local directory="$PWD"
+  local target="$(realpath "$1")"
+
+  [[ "$directory" == "$target" ]] && return
+
+  local directory_slashes=${directory//[^\/]/}
+  local target_slashes=${target//[^\/]/}
+
+  local envars
+  envars=()
+
+  for (( n=${#directory_slashes}; n > 0; --n )); do
+    [[ "$directory" == "$HOME" ]] && break
+
+    if [[ -f "$directory/.env" ]]; then
+      envars=( $envars $(cat "$directory/.env" | sed "s/=.*//g" | tr '\n' ' ') )
+    fi
+
+    [[ "$directory" == "$target" ]] && break
+
+    directory="$directory/.."
+  done
+
+  if [[ ${#envars[@]} -gt 0 ]]; then
+    for envar in $envars; do
+      unset $envar
+    done
+
+    unset envar
+  fi
+
+  envars=()
+
+  for (( n=${#target_slashes}; n > 0; --n )); do
+    [[ "$target" == "$HOME" ]] && break
+
+    if [[ -f "$target/.env" ]]; then
+      envars=( $(cat "$target/.env" | tr '\n' ' ') $envars )
+    fi
+
+    target="$target/.."
+  done
+
+  if [[ ${#envars[@]} -gt 0 ]]; then
+    for envar in $envars; do
+      export $envar
+    done
+
+    unset envar
+  fi
+}
+
 cd() {
   if [[ $# -eq 0 ]]; then
     local directory="$HOME"
@@ -21,6 +79,8 @@ cd() {
       return 1
     fi
   fi
+
+  _autoenv "$directory"
 
   builtin pushd $directory > /dev/null
 
