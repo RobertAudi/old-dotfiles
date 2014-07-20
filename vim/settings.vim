@@ -23,8 +23,6 @@ set incsearch
 scriptencoding utf-8
 set encoding=utf-8
 
-set novisualbell  " No blinking
-set noerrorbells  " No noise.
 set laststatus=2  " Always show status line.
 set showmatch     " Show matching brackets.
 
@@ -54,7 +52,7 @@ set colorcolumn=100
 
 " When the page starts to scroll, keep the cursor
 " 8 lines from the top and 8 lines from the bottom
-set scrolloff=8
+set scrolloff=20
 
 " Same as above but for horizontal scrolling
 set sidescrolloff=8
@@ -96,6 +94,7 @@ set wildmode=list:longest,full
 set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.DS_Store                       " OS X bullshit
+set complete=.,b,w,u,U,t,i
 
 " Whitespace
 " ----------
@@ -115,5 +114,3 @@ endif
 
 " Color scheme
 set background=dark
-let base16colorspace=256
-colorscheme base16-railscasts

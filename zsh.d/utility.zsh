@@ -9,14 +9,6 @@ list_of_files() {
   command ls -pFA --color=auto
 }
 
-prompt_pwd() {
-  if [[ "$PWD" == "$HOME" ]]; then
-    echo "~"
-  else
-    echo "%1C"
-  fi
-}
-
 _manlistgen() {
   man -k . | sed "/^$/d" | sed -E "s/^[ \t]*//g" | sed -E "s/- .*//g" | sed -E "s/, /\n/g" | sed -E "s/^[^a-z0-9].*//g" | sed "/^$/d" | sed "s/(.*//g" | sort | uniq > $MANLIST
 }

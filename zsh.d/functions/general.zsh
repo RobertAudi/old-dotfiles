@@ -1,18 +1,3 @@
-# Syntax highlighted cat
-ccat() {
-  if ! type pygmentize > /dev/null 2>&1; then
-    echo "$fg[red]pygments not installed!$reset_color"
-    return 1
-  fi
-
-  if [[ $# -eq 0 ]]; then
-    echo "Usage: ccat <filename>"
-    return
-  fi
-
-  pygmentize -g "$@"
-}
-
 # Copy path to file
 pcf() {
   grealpath $1 | tr -d "\n" | pbcopy
@@ -20,7 +5,19 @@ pcf() {
 
 # Pretty print the PATH
 lspath () {
-  eval echo \$${1:-PATH} |tr : "\n"
+  local awkstr="{ sub(\"/usr\",    \"$fg_no_bold[green]/usr$reset_color\");"
+  awkstr="${awkstr} sub(\"/bin\",  \"$fg_no_bold[blue]/bin$reset_color\");"
+  awkstr="${awkstr} sub(\"/opt\",  \"$fg_no_bold[cyan]/opt$reset_color\");"
+  awkstr="${awkstr} sub(\"/sbin\", \"$fg_no_bold[magenta]/sbin$reset_color\");"
+  awkstr="${awkstr} sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\");"
+  awkstr="${awkstr} print }"
+
+  echo $PATH | tr ":" "\n" | awk "${awkstr}"
+}
+
+mcd() {
+  command mkdir -p "$1"
+  cd "$1"
 }
 
 fasd_cd() {
@@ -38,4 +35,26 @@ fs() {
   else
     command du -csbh .[^.]* *
   fi
+}
+
+nuke()
+{
+  local confirm
+  read -q "confirm?Are you sure you want to delete \"${fg_no_bold[red]}${fg_bold[white]}${PWD}${reset_color}\"? [y/n]"
+
+  local exitcode=$?
+
+  if [[ "$confirm" == "y" ]]; then
+    builtin cd ..
+
+    command rm -rf $OLDPWD
+
+    echo "${fg[yellow]}Nuked ${OLDPWD}!!!!$reset_color"
+  fi
+
+  return $exitcode
+}
+
+last_modified() {
+  ls -t $* 2> /dev/null | head -n 1
 }

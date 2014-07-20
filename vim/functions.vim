@@ -7,12 +7,12 @@ endfunction
 
 function! OpenPluginRepoInBrowser()
   let l:line = getline(".")
-  let l:match_position = match(l:line, "NeoBundle")
+  let l:match_position = match(l:line, "Plug")
 
   if l:match_position >= 0
-    let l:repo = substitute(substitute(l:line, ".*NeoBundle \"", "", "g"), "\.git\".*", "", "g")
+    let l:repo = substitute(substitute(l:line, " *Plug '", "", "g"), "'.*", "", "g")
 
-    silent! execute "!open https://github.com/" . l:repo
+    execute "silent! !open -g https://github.com/" . l:repo
   endif
 endfunction
 
@@ -20,9 +20,9 @@ endfunction
 " FIXME: The `.git` part is added just before the last char...
 function! AddBundle()
   if (empty(getline(".")))
-    execute "normal iNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"o\<esc>"
+    execute "normal iPlug '\<C-O>P\<esc>T/;dT'o\<esc>"
   else
-    execute "normal oNeoBundle \"\<C-O>P\<C-O>l.git\<esc>T/;dT\"$"
+    execute "normal oPlug '\<C-O>P\<esc>T/;dT'$"
   endif
 endfunction
 
@@ -57,3 +57,54 @@ function! MagicSave()
     echo "Created non-existing directory: " . l:directory
   endif
 endfunction
+
+" Append stuff to all the selected lines
+function! RAAppend() range
+  call inputsave()
+  let l:str = input("> ")
+  call inputrestore()
+
+  redraw!
+
+  if strlen(l:str) > 0
+    execute a:firstline . "," . a:lastline . "normal A" . l:str
+  endif
+endfunction
+xnoremap <C-A> :call RAAppend()<CR>
+
+function! RAToCamelcase(word)
+  let word = substitute(a:word, '-', '_', 'g')
+
+  if word !~# '_' && word =~# '\l'
+    return substitute(word,'^.','\l&','')
+  else
+    return substitute(word,'\C\(_\)\=\(.\)','\=submatch(1)==""?tolower(submatch(2)) : toupper(submatch(2))','g')
+  endif
+endfunction
+
+function! RAToSnakecase(word)
+  let word = substitute(a:word,'::','/','g')
+  let word = substitute(word,'\(\u\+\)\(\u\l\)','\1_\2','g')
+  let word = substitute(word,'\(\l\|\d\)\(\u\)','\1_\2','g')
+  let word = substitute(word,'[.-]','_','g')
+  let word = tolower(word)
+
+  return word
+endfunction
+
+function! RAToggleCase(word)
+  let l:new_word = ""
+
+  if match(a:word, "_") > 0
+    let l:new_word = RAToCamelcase(a:word)
+  else
+    let l:new_word = RAToSnakecase(a:word)
+  endif
+
+  let l:position = getpos(".")
+
+  execute 's/' . a:word . '/' . l:new_word . '/g'
+
+  call setpos(".", l:position)
+endfunction
+nnoremap <silent> gt :call RAToggleCase("<C-R>=expand("<cword>")<CR>")<CR>

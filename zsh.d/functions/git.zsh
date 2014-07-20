@@ -1,10 +1,10 @@
 gi() {
   if [[ "$1" == "list" ]]; then
     local maxColumns=1
-    local calculatedColumns=$(($(echo $COLUMNS | tr -d "\n") / 45))
+    local calculatedColumns=$(echo "$COLUMNS / 45" | bc)
     local columns=$(($calculatedColumns > $maxColumns ? $calculatedColumns : $maxColumns))
     local maxWidth=120
-    local calculatedWidth=$(($(echo $COLUMNS | tr -d "\n") / 1.2))
+    local calculatedWidth=$(echo "$COLUMNS / 1.2" | bc)
     local width=$(($calculatedWidth > $maxWidth ? $calculatedWidth : $maxWidth))
 
     curl -s "http://www.gitignore.io/api/$@" | tr "," "\n" | pr -$columns -t -w$width

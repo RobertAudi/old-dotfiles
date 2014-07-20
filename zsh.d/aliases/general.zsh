@@ -33,3 +33,12 @@ alias psg="ps aux | grep"
 
 # Copy my SSH key
 alias cpssh="cat $HOME/.ssh/id_rsa.pub | pbcopy"
+
+# Compress into tar.gz
+alias zip="tar -czf"
+
+ # OS X Quick Look
+alias ql="qlmanage -p 2>/dev/null"
+
+# open current dir in OS X Finder
+alias oo="open ."

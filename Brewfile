@@ -25,6 +25,7 @@ cask install totalfinder || true
 cask install transmission || true
 cask install vlc || true
 cask install the-unarchiver || true
+cask install choosy || true
 
 install ack || true
 install chruby || true

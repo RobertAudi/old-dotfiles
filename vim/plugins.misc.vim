@@ -2,19 +2,25 @@
 " ----------
 let g:goldenview__enable_default_mapping = 0
 
-" Bonly
-" -----
-nnoremap <C-S> :Bonly<CR>
-
 " EasyTree
 " --------
 let g:easytree_auto_save_settings = 1
 
 function! FocusOrToggleEasyTree()
-  if getbufvar(winbufnr(1), "&filetype") == "easytree" && &filetype != "easytree"
-    execute 1 . "wincmd w"
+  let l:tabuflist = copy(tabpagebuflist())
+  let l:filetypes = map(copy(l:tabuflist), "getbufvar(v:val, '&filetype')")
+  let l:easytreebufindex = index(l:filetypes, "easytree")
+
+  if l:easytreebufindex >= 0
+    let l:easytreewinindex = l:tabuflist[l:easytreebufindex]
+
+    if bufnr("%") == l:easytreewinindex
+      execute bufwinnr("#") . "wincmd w"
+    else
+      execute bufwinnr(l:easytreewinindex) . "wincmd w"
+    endif
   else
-    execute "EasyTreeToggle"
+    execute "EasyTree"
   endif
 endfunction
 nnoremap - :call FocusOrToggleEasyTree()<CR>
@@ -41,6 +47,7 @@ let g:gist_browser_command = "open %URL%"
 " Commentary
 " ----------
 nmap gx gccyypgcc
+xmap <silent> <expr> gx 'gcgvyp`[' . strpart(getregtype(), 0, 1) . '`]gc'
 
 " indentLine
 " ----------
@@ -58,6 +65,45 @@ let g:strip_whitespace_on_save = 1
 
 " Ag
 " --
-command! -bang -nargs=1 F Ag<bang> --smart-case --hidden <args>
+let g:AgSmartCase = 1
+command! -bang -nargs=+ F Ag<bang> --hidden <args>
 nnoremap <C-F> :F!<Space>
 nnoremap <silent> <LocalLeader>f :copen<CR>
+
+" CtrlP
+" -----
+let g:ctrlp_user_command = [".git", "cd %s && git ls-files --others --cached --exclude-standard"]
+nnoremap <C-B> :CtrlPBuffer<CR>
+nnoremap <C-Y> :CtrlPYankring<CR>
+
+" vim-gitgutter
+" -------------
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+
+
+" vim-oblique
+" -----------
+hi! def link ObliqueCurrentMatch IncSearch
+hi! def link ObliquePrompt       Structure
+hi! def link ObliqueLine         String
+
+" Railscasts
+" ----------
+let base16colorspace=256
+colorscheme base16-railscasts
+
+" Tabularize
+" ----------
+function! RAAlign() range
+  call inputsave()
+  let l:str = input("> ")
+  call inputrestore()
+
+  redraw!
+
+  if strlen(l:str) > 0
+    execute a:firstline . "," . a:lastline . "Tabularize /" . l:str
+  endif
+endfunction
+xnoremap <Leader>a :call RAAlign()<CR>

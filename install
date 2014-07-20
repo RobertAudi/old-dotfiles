@@ -39,28 +39,6 @@ init() {
     exit_or_not $?
   fi
 
-  if [[ -d "$HOME/.zshuery" ]]; then
-    progress "Updating zshuery"
-
-    builtin cd "$HOME/.zshuery"
-
-    git pull > /dev/null 2>&1
-
-    exit_if_needed $?
-
-    git submodule update --init --recursive > /dev/null 2>&1
-
-    exit_or_not $?
-  else
-    progress "Installing zshuery"
-
-    builtin cd "$HOME"
-
-    git clone --recursive git@github.com:myfreeweb/zshuery.git "$HOME/.zshuery" > /dev/null 2>&1
-
-    exit_or_not $?
-  fi
-
   if [[ -d "$HOME/.zsh-syntax-highlighting" ]]; then
     progress "Updating zsh-syntax-highlighting"
 
@@ -75,24 +53,6 @@ init() {
     builtin cd "$HOME"
 
     git clone git@github.com:zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh-syntax-highlighting" > /dev/null 2>&1
-
-    exit_or_not $?
-  fi
-
-  if [[ -d "$HOME/.scm_breeze" ]]; then
-    progress "Updating scm_breeze"
-
-    builtin cd "$HOME/.scm_breeze"
-
-    git pull > /dev/null 2>&1
-
-    exit_or_not $?
-  else
-    progress "Installing scm_breeze"
-
-    builtin cd "$HOME"
-
-    git clone git@github.com:ndbroadbent/scm_breeze.git "$HOME/.scm_breeze" > /dev/null 2>&1
 
     exit_or_not $?
   fi

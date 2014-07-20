@@ -13,3 +13,7 @@ command! -bang WQA wqa<bang>
 
 " Save and make executable
 command! -bang WX w | !chmod a+x %
+
+" Copy the path to the current Dir or Filename
+command! -nargs=0 CopyDirPath  let @*=expand('%:p:h')
+command! -nargs=0 CopyFilePath let @*=expand('%:p')

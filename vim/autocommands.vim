@@ -1,4 +1,6 @@
-if has("autocmd")
+augroup vimrc
+  autocmd!
+
   " Disable all beeps and flashes, ALL THE FUCKING TIME!
   autocmd VimEnter * set visualbell t_vb=
 
@@ -8,16 +10,12 @@ if has("autocmd")
   " Manpages are readonly and not modifiable
   " Also, don't show tabs
   autocmd FileType man setlocal readonly nomodifiable nolist
-  autocmd FileType man nnoremap <buffer> <silent> q :q<CR>
 
   " Faster access to manpages
   autocmd FileType sh,zsh nnoremap <buffer> <Leader>m :Man<Space>
 
-  " Whitelist of filetypes to enable word wrap
-  let word_wrap_whitelist = ["markdown", "text"]
-
   " Absolutely NO WRAP!!
-  autocmd BufEnter,BufNewFile * if index(word_wrap_whitelist, &filetype) < 0 | set nowrap | endif
+  autocmd BufEnter,BufNewFile set nowrap
 
   " Call the global color settings on every colorscheme change or when Vim starts.
   autocmd VimEnter,ColorScheme * call GlobalColorSettings()
@@ -43,7 +41,7 @@ if has("autocmd")
       endif
     endif
   endfun
-  au BufReadPost * call AutojumpLastPosition()
+  autocmd BufReadPost * call AutojumpLastPosition()
 
   " Syntax hilighting for Podfiles
   autocmd BufRead,BufNewFile Podfile set filetype=ruby
@@ -54,8 +52,14 @@ if has("autocmd")
   " - Use `q` or `Esc` to close the help (and the quickfix window)
   autocmd FileType help nnoremap <buffer> <CR> <C-]>
   autocmd FileType help nnoremap <buffer> <BS> <C-T>
-  autocmd FileType help,qf nnoremap <buffer> <silent> q :q<CR>
-  autocmd FileType help,qf nnoremap <buffer> <silent> <Esc> :q<CR>
+  autocmd FileType help,qf,man nnoremap <buffer> <silent> q :q<CR>
+  autocmd FileType help,qf,man nnoremap <buffer> <silent> <Esc> :q<CR>
+
+  let default_timeoutlen_filetypes = ["help", "qf", "man"]
+  autocmd BufEnter,BufNewFile * if index(default_timeoutlen_filetypes, &filetype) < 0 | set timeoutlen=1000 | endif
+  autocmd BufEnter,BufNewFile * if index(default_timeoutlen_filetypes, &filetype) >= 0 | set timeoutlen=0 | endif
+  autocmd FileType help,qf,man nnoremap <buffer> <silent> d <C-D>
+  autocmd FileType help,qf,man nnoremap <buffer> <silent> u <C-U>
 
   " Stay in the quickfix window when going through search results
   " TODO: Highlight the current search result
@@ -96,43 +100,13 @@ if has("autocmd")
   autocmd FileType ruby nmap <buffer> <LocalLeader>m :call Memoize("<C-R>=expand("<cword>")<CR>")<CR>
 
   " Markdown configuration
-  augroup ft_markdown
-    autocmd!
-    " Headings with ease!
-    " Also capitalizes the line
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 guu~yypVr=
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 guu~yypVr-
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 guu~I### <ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 guu~I#### <ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 guu~I##### <ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 guu~I###### <ESC>
-
-    " Code, italic and bold
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>c ciw`<C-R>"`<ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>i ciw*<C-R>"*<ESC>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>b ciw**<C-R>"**<ESC>
-
-    " Don't break words that contain `:` or `*`
-    autocmd FileType markdown setlocal breakat-=:
-    autocmd FileType markdown setlocal breakat-=*
-
-    " Enable word wrap for markdown files
-    autocmd FileType markdown setlocal nolist wrap linebreak
-
-    " Sane movement when word wrap is enabled
-    " In Normal mode
-    autocmd FileType markdown nnoremap <buffer> j gj
-    autocmd FileType markdown nnoremap <buffer> k gk
-    autocmd FileType markdown nnoremap <buffer> gj j
-    autocmd FileType markdown nnoremap <buffer> gk k
-    autocmd FileType markdown nnoremap <buffer> L g$
-    autocmd FileType markdown nnoremap <expr> <silent> <buffer> H col(".") == match(getline("."),"\S")+1 ? "g0" : "g^"
-    " In Visual mode
-    autocmd FileType markdown xnoremap <buffer> j gj
-    autocmd FileType markdown xnoremap <buffer> k gk
-    autocmd FileType markdown xnoremap <buffer> gj j
-    autocmd FileType markdown xnoremap <buffer> gk k
-    autocmd FileType markdown xnoremap <buffer> L g$
-    autocmd FileType markdown xnoremap <expr> <silent> <buffer> H col(".") == match(getline("."),"\S")+1 ? "g0" : "g^"
-  augroup END
-endif
+  " ----------------------
+  " Headings with ease!
+  " Also capitalizes the line
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>1 guu~yypVr=
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>2 guu~yypVr-
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 guu~I### <ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 guu~I#### <ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 guu~I##### <ESC>
+  autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 guu~I###### <ESC>
+augroup END

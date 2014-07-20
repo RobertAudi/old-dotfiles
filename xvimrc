@@ -31,16 +31,16 @@ nmap N Nzz
 nmap vv ^v$
 
 " Remap H and L to beggining and end of the line
-map H ^
-map L $
+nmap H ^
+nmap L $
 
 " Don't move on */#
 nmap * *zz
 nmap # #zz
 
-" Same as C-o/C-i but centers the text
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
+" Disable <C-o> / <C-i>
+nnoremap <C-o> <Nop>
+nnoremap <C-i> <Nop>
 
 nmap ,s :%s//g<Left><Left>
 vmap ,s :s//g<Left><Left>

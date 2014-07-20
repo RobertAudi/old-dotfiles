@@ -69,20 +69,19 @@ cd() {
       return 1
     fi
 
-    local answer
-    vared -p "$directory doesn't exist. Do you want to create it? " answer
+    local directory_maybe=$(command fasd -d "$directory" -1)
 
-    if [[ $answer =~ "^[yY]" ]]; then
-      command mkdir -p $directory
-    else
+    if [[ "$(echo -n $directory_maybe | wc -l)" == "0" ]]; then
       echo "$fg[red]No such file or directory: $directory$reset_color"
       return 1
+    else
+      directory="$directory_maybe"
     fi
   fi
 
   _autoenv "$directory"
 
-  builtin pushd $directory > /dev/null
+  builtin cd $directory > /dev/null
 
   if [[ -z $(pwd | command grep "$HOME") ]]; then
     echo "$fg[yellow]You got out of your home directory!$reset_color"
@@ -91,6 +90,7 @@ cd() {
   echo "$fg[yellow]In: $PWD$reset_color"
   command ls -pFA --color=auto
 }
+alias cd=" cd"
 
 _up() {
   local rx updir

@@ -1,4 +1,6 @@
 ruby-build() {
+  [[ $# -eq 0 ]] && command ruby-build; return 1
+
   local rubies_home="$HOME/.rubies"
 
   if [[ ! -d $rubies_home ]]; then

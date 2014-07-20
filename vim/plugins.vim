@@ -1,86 +1,54 @@
-filetype off
+let g:plug_threads = 40
 
-if has("vim_starting")
-  set nocompatible
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+call plug#begin('~/.vim/plugged')
 
-  if !isdirectory(expand("~/.vim/bundle/neobundle.vim"))
-    echo "Installing NeoBundle\n"
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
 
-    silent execute "!mkdir -p ~/.vim/bundle"
-    silent execute "!git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim"
-  endif
-endif
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
+Plug 'tpope/vim-pastie'
 
-call neobundle#rc(expand("~/.vim/bundle/"))
+Plug 'RobertAudi/base16-vim'
+Plug 'RobertAudi/TaskList.vim'
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch "Shougo/neobundle.vim"
+Plug 'tpope/vim-markdown'
+Plug 'itspriddle/vim-marked'
 
-NeoBundle "Shougo/unite.vim.git"
-NeoBundle "Shougo/unite-outline.git"
-NeoBundle "Shougo/neocomplete.vim.git"
-NeoBundle "Shougo/neosnippet.git"
-NeoBundle "Shougo/neosnippet-snippets.git"
-NeoBundle "Shougo/vimproc.git", {
-      \     "build" : {
-      \       "mac" : "make -f make_mac.mak"
-      \     }
-      \   }
+Plug 'vim-scripts/bufkill.vim'
+Plug 'duff/vim-bufonly'
+Plug 'vim-scripts/zoomwintab.vim'
+Plug 'ervandew/ag'
+Plug 'danro/rename.vim'
+Plug 'troydm/easytree.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'RobertAudi/ctrlp-yankring.vim'
+Plug 'zhaocai/GoldenView.Vim'
+Plug 'christoomey/vim-tmux-navigator'
 
-NeoBundle "tpope/vim-rails.git"
-NeoBundle "tpope/vim-rake.git"
-NeoBundle "tpope/vim-endwise.git"
-NeoBundle "tpope/vim-surround.git"
-NeoBundle "tpope/vim-repeat.git"
-NeoBundle "tpope/vim-commentary.git"
-NeoBundle "tpope/vim-pastie.git"
-NeoBundle "tpope/vim-eunuch.git"
+Plug 'pangloss/vim-javascript'
+Plug 'leshill/vim-json'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rake'
 
-NeoBundle "mattn/webapi-vim.git"
-NeoBundle "mattn/gist-vim.git"
+Plug 'Yggdroot/indentLine'
+Plug 'godlygeek/tabular'
+Plug 'jiangmiao/auto-pairs'
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
+Plug 'airblade/vim-gitgutter'
+Plug 'justinmk/vim-sneak'
+Plug 'thinca/vim-ambicmd'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'sickill/vim-pasta'
+Plug 'thinca/vim-visualstar'
+Plug 'junegunn/vim-oblique'
+Plug 'ajh17/VimCompletesMe'
 
-NeoBundle "vim-scripts/bufkill.vim.git"
-NeoBundle "vim-scripts/zoomwintab.vim.git"
-
-NeoBundle "RobertAudi/base16-vim.git"
-NeoBundle "RobertAudi/TaskList.vim.git"
-NeoBundle "RobertAudi/ingo-library.git"
-NeoBundle "RobertAudi/EnhancedJumps.git"
-NeoBundle "RobertAudi/vim-markdown.git"
-NeoBundle "RobertAudi/unite-help.git"
-
-NeoBundle "pangloss/vim-javascript.git"
-NeoBundle "leshill/vim-json.git"
-NeoBundle "Yggdroot/indentLine.git"
-NeoBundle "godlygeek/tabular.git"
-NeoBundle "vim-ruby/vim-ruby.git"
-NeoBundle "sickill/vim-pasta.git"
-NeoBundle "jiangmiao/auto-pairs.git"
-NeoBundle "joedicastro/vim-multiple-cursors.git"
-NeoBundle "duff/vim-bufonly.git"
-NeoBundle "itchyny/lightline.vim.git"
-NeoBundle "justinmk/vim-sneak.git"
-NeoBundle "itspriddle/vim-marked.git"
-NeoBundle "chrisbra/Colorizer.git"
-NeoBundle "thinca/vim-ambicmd.git"
-NeoBundle "hail2u/vim-css3-syntax.git"
-NeoBundle "jtratner/vim-flavored-markdown.git"
-NeoBundle "scrooloose/syntastic.git"
-NeoBundle "troydm/easytree.vim.git"
-NeoBundle "zhaocai/GoldenView.Vim.git"
-NeoBundle "ervandew/ag.git"
-NeoBundle "danro/rename.vim.git"
-NeoBundle "ntpeters/vim-better-whitespace.git"
-NeoBundle "szw/vim-ctrlspace.git"
-NeoBundle "itchyny/vim-gitbranch.git"
-NeoBundle "christoomey/vim-tmux-navigator.git"
-
-" Automatically install new plugins
-NeoBundleCheck
-
-syntax on
-filetype plugin indent on
+call plug#end()
 
 runtime macros/matchit.vim
 runtime ftplugin/man.vim

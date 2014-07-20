@@ -8,7 +8,7 @@ touch() {
   for f in $@; do
     if [[ -a $f ]]; then
       echo "$fg[red]$f already exists$reset_color"
-      return 1
+      continue
     fi
 
     local directory=$(dirname $f)
@@ -22,7 +22,7 @@ touch() {
         answer=
       else
         echo "$fg[red]No such file or directory: $directory$reset_color"
-        return 1
+        continue
       fi
     fi
 

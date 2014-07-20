@@ -4,7 +4,7 @@
 [github]
   user = RobertAudi
 [core]
-  editor = `brew --prefix macvim`/MacVim.app/Contents/MacOS/Vim
+  editor = /usr/local/opt/macvim/MacVim.app/Contents/MacOS/Vim
   pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
   excludesfile = /Users/rob/.gitignore.global
 [color]
@@ -24,3 +24,8 @@
   default = simple
 [advice]
   statusHints = false
+[diff "storyboardconv"]
+  textconv = cat
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f

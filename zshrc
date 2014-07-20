@@ -1,19 +1,28 @@
-source $HOME/.base16.sh
-source $HOME/.zshuery/zshuery.sh
-source $HOME/.zsh.d/utility.zsh
-load_defaults
-load_aliases
-load_completion $HOME/.zshuery/completion
-load_correction
+autoload -U colors && colors
 
-prompts '%{$fg_bold[green]%}$(prompt_pwd)%{$reset_color%} %{$fg[yellow]%}$(prompt_char "○")%{$reset_color%} '
+autoload -U url-quote-magic
+zle -N self-insert url-quote-magic
+
+# Backward kill on directory delimiter
+autoload -U select-word-style
+select-word-style bash
+
+# Setup run-help
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/5.0.5/help
+
+fpath=( $HOME $fpath )
+
+source $HOME/.base16.sh
+source $HOME/.zsh.d/utility.zsh
 
 # ENV variables
 # -------------
 # Editors and pager
-export EDITOR="/usr/local/bin/vim"
+export EDITOR="/usr/local/opt/macvim/MacVim.app/Contents/MacOS/Vim"
 export VISUAL="/usr/local/bin/mvim"
-export SUDO_EDITOR="/usr/local/bin/vim"
+export SUDO_EDITOR="/usr/local/opt/macvim/MacVim.app/Contents/MacOS/Vim"
 export PAGER="/usr/local/bin/vimpager"
 export MANPAGER="/usr/local/bin/vimpager"
 export BROWSER="open"
@@ -36,13 +45,9 @@ path=( /usr/local/opt/gnu-sed/libexec/gnubin $path )
 # Custom bin dir has the highest priority
 path=( $HOME/.bin $path )
 
-# Go shit (or Goat shit...)
-# -------------------------
-export GOPATH="$HOME/sandbox/go-shit"
+# Go(at) shit
+export GOPATH="$HOME/DevShit/go-shit"
 path=( $GOPATH/bin $path )
-if [[ ! -d $GOPATH ]]; then
-  command mkdir -p $GOPATH > /dev/null 2>&1
-fi
 
 # Remove duplicate entries from the PATH
 typeset -U path
@@ -56,17 +61,11 @@ manpath=( /usr/local/opt/gnu-sed/libexec/gnuman $manpath )
 export MANLIST=$HOME/.manlist
 _manlistgen
 
-# Setup run-help
-unalias run-help
-autoload run-help
-HELPDIR=/usr/local/share/zsh/5.0.5/help
+# ZOMGit
+source /Users/rob/.gem/ruby/2.1.1/gems/zomgit-0.0.2/share/zomgit.zsh
 
-# Backward kill on directory delimiter
-autoload -U select-word-style
-select-word-style bash
-
-# SCM Breeze
-[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
+# Geez!
+source $HOME/.geez/geez.zsh
 
 # ZSH Syntax Highlighting
 source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -77,11 +76,14 @@ source /usr/local/opt/chruby/share/chruby/chruby.sh
 chruby 2.1.1
 
 # Custom shit
+source $HOME/.zsh.d/defaults.zsh
+source $HOME/.zsh.d/prompt.zsh
 source $HOME/.zsh.d/zstyle.zsh
-source $HOME/.zsh.d/bindings.zsh
 source $HOME/.zsh.d/aliases.zsh
 source $HOME/.zsh.d/functions.zsh
+source $HOME/.zsh.d/zle.zsh
 source $HOME/.zsh.d/completions.zsh
+source $HOME/.zsh.d/bindings.zsh
 
 # manydots-magic
 fpath=( $HOME/.zsh.d/manydots-magic $fpath )
