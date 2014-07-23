@@ -78,10 +78,8 @@ chruby 2.1.1
 # Custom shit
 source $HOME/.zsh.d/defaults.zsh
 source $HOME/.zsh.d/prompt.zsh
-source $HOME/.zsh.d/zstyle.zsh
 source $HOME/.zsh.d/aliases.zsh
 source $HOME/.zsh.d/functions.zsh
-source $HOME/.zsh.d/zle.zsh
 source $HOME/.zsh.d/completions.zsh
 source $HOME/.zsh.d/bindings.zsh
 

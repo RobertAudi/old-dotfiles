@@ -20,6 +20,9 @@ set ignorecase
 set smartcase
 set incsearch
 
+" Add the g flag to search/replace by default
+set gdefault
+
 scriptencoding utf-8
 set encoding=utf-8
 

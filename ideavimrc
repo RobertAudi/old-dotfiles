@@ -1,0 +1,12 @@
+set ignorecase
+set smartcase
+set matchpairs=(:),[:],{:},":"
+set scrolloff=20
+
+vnoremap > >gv
+vnoremap < <gv
+
+nnoremap H ^
+vnoremap H ^
+nnoremap L $
+vnoremap L $h

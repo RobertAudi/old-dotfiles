@@ -1,6 +1,8 @@
 greeting() {
   [[ $already_sourced_once == 1 ]] && return
 
+  clear
+
   already_sourced_once=1
 
   if [[ "$TERM" != "screen-256color" || -z "$TMUX" ]]; then

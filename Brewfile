@@ -5,8 +5,13 @@ tap caskroom/homebrew-cask || true
 tap caskroom/versions || true
 install brew-cask || true
 
+cask install alfred || true
+cask install all-the-gifs || true
 cask install appcleaner || true
+cask install atom || true
+cask install breach || true
 cask install charles || true
+cask install choosy || true
 cask install dropbox || true
 cask install growlnotify || true
 cask install hazel || true
@@ -15,17 +20,20 @@ cask install hydra || true
 cask install imagealpha || true
 cask install imageoptim || true
 cask install iterm2 || true
+cask install karabiner || true
 cask install macdown || true
+cask install mou || true
 cask install opera || true
+cask install opera-developer || true
+cask install seil || true
 cask install simpholders || true
 cask install skype || true
 cask install sourcetree || true
 cask install spark-inspector || true
-cask install totalfinder || true
+cask install the-unarchiver || true
 cask install transmission || true
 cask install vlc || true
-cask install the-unarchiver || true
-cask install choosy || true
+cask install xtrafinder || true
 
 install ack || true
 install chruby || true
@@ -55,6 +63,9 @@ install rcm || true
 
 tap laurent22/massren || true
 install massren || true
+
+tap peco/peco || true
+install peco || true
 
 cleanup
 doctor

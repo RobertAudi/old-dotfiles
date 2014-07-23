@@ -22,9 +22,6 @@ alias cpc="history | tail -1 | sed -e \"s/^[ \t]*//\" | cut -d' ' -f2- | sed -e 
 # Directory tree
 alias dtree="command tree -dCAFa -I 'rhel.*.*.package|.git|.gem' --dirsfirst"
 
-# open current dir in file manager
-alias oo="open ."
-
 # Copy path to current dir
 alias pc="pwd | tr -d '\n' | pbcopy"
 
@@ -42,3 +39,9 @@ alias ql="qlmanage -p 2>/dev/null"
 
 # open current dir in OS X Finder
 alias oo="open ."
+
+# Empty trash
+alias emptytrash="rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"

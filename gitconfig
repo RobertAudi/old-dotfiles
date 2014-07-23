@@ -7,6 +7,15 @@
   editor = /usr/local/opt/macvim/MacVim.app/Contents/MacOS/Vim
   pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
   excludesfile = /Users/rob/.gitignore.global
+
+  # Treat spaces before tabs and all kinds of trailing whitespace as an error
+  # [default] trailing-space: looks for spaces at the end of a line
+  # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+  # Make `git rebase` safer on OS X
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
 [color]
   ui = auto
 [color "diff"]
@@ -27,5 +36,14 @@
 [diff "storyboardconv"]
   textconv = cat
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
+[alias]
+  # View abbreviated SHA, description, and history graph of the latest 20 commits
+  l = log --pretty=oneline -n 20 --graph --abbrev-commit
+
+  # View the current working tree status using the short format
+  s = status -s
+
+  # Switch to a branch, creating it if necessary
+  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"

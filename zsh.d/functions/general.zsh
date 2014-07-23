@@ -37,6 +37,12 @@ fs() {
   fi
 }
 
+# Use 'o' instead of 'open' (o ~/Sites will open the sites folder)
+# If no arguments are supplied open the current folder
+o() {
+  open "${1:-.}"
+}
+
 nuke()
 {
   local confirm
